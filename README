@@ -1,0 +1,12 @@
+	<p>apigee provides a great tool to explore apis, this is a small extension to use its power in the chrome omnibar context.</p>
+
+	<ul>
+		<li>Just type apigee + tab in the omnibar</li><br />
+<img src="http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step1.jpg" alt="" width="352" height="61" />
+		<li>Type the api url you want to test</li><br />
+<img src="http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step2.jpg" alt="" width="596" height="60" />
+		<li>Press enter to see apigee console with the api url</li>
+	</ul><br />
+<img src="http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step3.jpg" alt="" width="1232" height="770" />
+
+	<p>NOTE : I am using chrome experimental apis, so u have to use chrome as mentioned here <a href="http://code.google.com/chrome/extensions/trunk/experimental.html">chrome experimental</a></p>
