@@ -1,0 +1,23 @@
+
+NOTE : I am using chrome experimental apis, so u have to use chrome as mentioned here "chrome experimental":http://code.google.com/chrome/extensions/trunk/experimental.html
+
+apigee anywhere
+====================
+apigee provides a great tool to explore apis, this is a small extension to use its power in the chrome omnibar context.
+
+Usage
+--------
+Just type apigee + tab in the omnibar
+!http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step1.jpg!
+Type the api url you want to test
+!http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step2.jpg!
+Press enter to see apigee console with the api url
+!http://github.com/apigee/apigee-anywhere/raw/master/doc-images/step3.jpg!
+
+Installation
+------------
+Make sure you are running Chrome version 7 or higher and that [experimental extensions APIs are enabled](http://code.google.com/chrome/extensions/dev/experimental.html#using) then download the [latest crx file](http://github.com/abraham/omnitweet/downloads).
+
+Requirements
+------------
+[Google Chrome](http://www.google.com/chrome) or Chromium version 7+ and a Twitter account.
