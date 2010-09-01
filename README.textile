@@ -17,8 +17,8 @@ Press enter to see apigee console with the api url
 
 Installation
 ------------
-Make sure you are running Chrome version 7 or higher and that [experimental extensions APIs are enabled](http://code.google.com/chrome/extensions/dev/experimental.html#using) then download the [latest crx file](http://github.com/abraham/omnitweet/downloads).
+Make sure you are running Chrome version 7 or higher and that [experimental extensions APIs are enabled](http://code.google.com/chrome/extensions/dev/experimental.html#using)
 
 Requirements
 ------------
-[Google Chrome](http://www.google.com/chrome) or Chromium version 7+ and a Twitter account.
+[Google Chrome](http://www.google.com/chrome) or Chromium version 7+.
