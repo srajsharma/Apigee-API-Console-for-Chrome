@@ -1,0 +1,37 @@
+<HTML>
+<BODY>
+<PRE style="word-wrap: break-word; white-space: pre-wrap;"><script>
+    var consoleLinkPrefix = "https://app.apigee.com/console/#apimet=";
+    var consoleLinkSuffix = encodeURIComponent("__apiidx__=null__apisecure__=true__apiprovider__=others");
+
+    function validateURL(url)
+    {
+        if (url.length != 0)
+        {
+            var j = new RegExp();
+            j.compile("^[A-Za-z]+://[A-Za-z0-9-]+\.[A-Za-z0-9]+");
+            return j.test(url);
+        }
+        return false;
+    }
+    
+    function navigate(url) {
+        chrome.tabs.getSelected(null, function(tab) {
+            chrome.tabs.update(tab.id, {url: url});
+        });
+    }
+
+    // This event is fired with the user accepts the input in the omnibox.
+    chrome.experimental.omnibox.onInputEntered.addListener(
+            function(text) {
+                if (validateURL(text)) {
+                    var url = consoleLinkPrefix + encodeURIComponent(text) + consoleLinkSuffix;
+                    navigate(url);
+                } else {
+                    alert("Please enter a valid url");
+                }
+            });
+</script>
+</PRE>
+</BODY>
+</HTML>
