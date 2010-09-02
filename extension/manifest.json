@@ -1,7 +1,7 @@
 {
   "name": "apigee console",
   "version": "1.0",
-  "permissions": ["tabs","experimental"],
+  "permissions": ["tabs","experimental","contextMenus"],
   "omnibox_keyword": "apigee",
   "icons": {
     "16": "images/marketing_logo.png",

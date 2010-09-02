@@ -47,6 +47,16 @@
                     alert('Please enter a valid url');
                 }
             });
+
+
+    chrome.contextMenus.create({"title": "Apigee test api", "contexts":["link"],
+        "onclick": function(info, tab) {
+            try {
+                navigate(ApigeeConsole.buildApigeeConsoleUrl(info.linkUrl));
+            } catch (err) {
+                alert('Please enter a valid url');
+            }
+        }});
     
     // parseUri 1.2.2
     // (c) Steven Levithan <stevenlevithan.com>
