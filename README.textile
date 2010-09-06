@@ -15,6 +15,9 @@ Type the api url you want to test
 Press enter to see apigee console with the api url
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/step3.jpg!
 
+This extension adds a context menu for all the urls and text selection
+!http://github.com/apigee/API-Test-Console/raw/master/doc-images/apigee-context-menu.jpg!
+
 Installation
 ------------
 Make sure you are running Chrome version 7 or higher and that [experimental extensions APIs are enabled](http://code.google.com/chrome/extensions/dev/experimental.html#using)

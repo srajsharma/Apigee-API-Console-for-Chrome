@@ -1,6 +1,9 @@
 <script type="text/javascript">
     var ApigeeConsole = new ApigeeConsoleUtils;
     function ApigeeConsoleUtils() {
+
+        this.pagesOfInterest = ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'];
+        
         this.endpointmap = {};
         this.endpointmap["api.twitter.com"] = "twitter";
         this.endpointmap["graph.facebook.com"] = "facebook";
@@ -48,8 +51,72 @@
                 }
             });
 
+    // Suggest stuff
+    var currentRequest = null;
+    chrome.experimental.omnibox.onInputChanged.addListener(
+            function(text, suggest) {
+                if (text == '') {
+                    return;
+                }
 
-    chrome.contextMenus.create({"title": "Apigee test api", "contexts":["link"],
+                /*if (currentRequest != null) {
+                    currentRequest.onreadystatechange = null;
+                    currentRequest.abort();
+                    currentRequest = null;
+                }*/
+
+                /*currentRequest = search(text, function(xml) {
+                    var results = [];
+                    var entries = xml.getElementsByTagName("entry");
+
+                    for (var i = 0, entry; i < 5 && (entry = entries[i]); i++) {
+                        var path = entry.getElementsByTagName("file")[0].getAttribute("name");
+                        var line =
+                                entry.getElementsByTagName("match")[0].getAttribute("lineNumber");
+                        var file = path.split("/").pop();
+
+                        // Remove HTML tags from description since omnibox cannot display them.
+                        var description = entry.getElementsByTagName("content")[0].textContent;
+                        description = description.replace(/<\/?.+?>/g, '');
+                        description = file + ': ' + description;
+                        descriptionStyles = [
+                            chrome.experimental.omnibox.styleUrl(0),
+                            chrome.experimental.omnibox.styleNone(file.length),
+                        ]
+
+                        // Highlight all occurrences of the match text.
+                        var index = -1;
+                        for (; ;) {
+                            var index = description.indexOf(text, index + 1);
+                            if (index < 0) break;
+                            if (index > file.length) {
+                                descriptionStyles.push(
+                                        chrome.experimental.omnibox.styleMatch(index),
+                                        chrome.experimental.omnibox.styleNone(index + text.length)
+                                        );
+                            }
+                        }
+
+                        results.push({
+                            content: path + '@' + line,
+                            description: description,
+                            descriptionStyles: descriptionStyles,
+                        });
+                    }
+
+                    suggest(results);
+                });*/
+                var res = [{
+                            content: "test content",
+                            description: "test description",
+                            descriptionStyles: [chrome.experimental.omnibox.styleNone(1)]
+                        }];
+                suggest(res);
+            }
+            );
+    // Listen for any changes to the URL of any tab.
+
+    chrome.contextMenus.create({"title": "Test with apigee", "contexts":["link","selection"],
         "onclick": function(info, tab) {
             try {
                 navigate(ApigeeConsole.buildApigeeConsoleUrl(info.linkUrl));
@@ -57,7 +124,16 @@
                 alert('Please enter a valid url');
             }
         }});
-    
+    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+        for (var i = 0; i < ApigeeConsole.pagesOfInterest.length; i++) {
+            if (tab.url.indexOf(ApigeeConsole.pagesOfInterest[i]) > 0) {
+              // ... show the page action.
+              chrome.pageAction.show(tabId);
+              break;
+            }
+        }    
+    });
+
     // parseUri 1.2.2
     // (c) Steven Levithan <stevenlevithan.com>
     // MIT License

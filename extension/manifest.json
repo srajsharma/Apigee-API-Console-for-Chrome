@@ -1,15 +1,16 @@
 {
-  "name": "apigee console",
+  "name": "Apigee's API Test Console",
   "version": "1.0",
   "permissions": ["tabs","experimental","contextMenus"],
   "omnibox_keyword": "apigee",
   "icons": {
-    "16": "images/marketing_logo.png",
-    "48": "images/marketing_logo.png",
-    "128": "images/marketing_logo.png"              
+    "16": "images/apigee_16.png",
+    "48": "images/apigee_70.png",
+    "128": "images/apigee_200.png"              
   },
   "page_action": {
-    "default_icon": "images/marketing_logo.png"
+    "default_icon": "images/apigee_70.png",
+    "popup": "html/popup.html"
   },
   "background_page": "html/background.html"
 }
