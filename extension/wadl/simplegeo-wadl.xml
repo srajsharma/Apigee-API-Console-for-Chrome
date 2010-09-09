@@ -1,0 +1,219 @@
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10 https://wadl.dev.java.net/wadl20061109.xsd" xmlns="http://research.sun.com/wadl/2006/10" xmlns:t="urn:simplegeo:simplegeoresponse">
+<resources base="http://api.simplegeo.com/0.1">
+<resource path="records/{layer}/{id}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="id" required="true" type="xsd:string" style="query" default="1234"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="get_records">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Fetch a Record </docs>
+<example url="records/{layer}/{id}.{format}"/>
+<notes>Fetch a Record</notes>
+</method>
+</resource>
+<resource path="records/{layer}/{id}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="id" required="true" type="xsd:string" style="query" default="1234"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="PUT" id="add_records">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Post a record</docs>
+<example url="records/{layer}/{id}.{format}"/>
+<notes>Post a record</notes>
+</method>
+</resource>
+<resource path="records/{layer}/{id}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="id" required="true" type="xsd:string" style="query" default="1234"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="DELETE" id="delete_records">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Delete a record</docs>
+<example url="records/{layer}/{id}.{format}"/>
+<notes>Delete a record</notes>
+</method>
+</resource>
+<resource path="records/{layer}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="POST" id="insert_multiplerecords">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Insert or update multiple records at once</docs>
+<example url="records/{layer}.{format}"/>
+<notes>Insert or update multiple records at once</notes>
+</method>
+</resource>
+<resource path="records/{layer}/{id}/history.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="id" required="true" type="xsd:string" style="query" default="1234"/>
+<param name="limit" required="false" type="xsd:string" style="query" default="20"/>
+<param name="start" required="false" type="xsd:string" style="query" default="1270000000"/>
+<param name="end" required="false" type="xsd:string" style="query" default="1290000000"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" iid="get_history_reverse">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Gets the history of a record</docs>
+<example url="records/{layer}/{id}/history.{format}"/>
+<notes>Gets the history of a record</notes>
+</method>
+</resource>
+<resource path="records/{layer}/nearby/{geohash}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="geohash" required="true" type="xsd:string" style="query" default="9q8yyk8y"/>
+<method name="GET" id="get_nearby_geohash">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Gets the nearby points from a given geohash. Returns records in a given geohash for the given layer. By nature, a geohash is a bounding box, which means that no radius or center point is needed. Searching by a simple geohash is the fastest way to do a nearby query with the API.</docs>
+<example url="records/{layer}/nearby/{geohash}.{format}"/>
+<notes>Gets the nearby points from a given geohash. Returns records in a given geohash for the given layer. By nature, a geohash is a bounding box, which means that no radius or center point is needed. Searching by a simple geohash is the fastest way to do a nearby query with the API.</notes>
+</method>
+</resource>
+<resource path="records/{layer}/nearby/{lat},{lon}.{format}">
+<param name="layer" required="true" type="xsd:string" style="query" default="com.simplegeo.test"/>
+<param name="lat" required="true" type="xsd:string" style="query" default="37.77275"/>
+<param name="lon" required="true" type="xsd:string" style="query" default="-122.40572"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="get_nearby">
+<tags>
+<tag primary="true">Layer</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Search the API using a given latitude and longitude. The default radius is 1 kilometer and 25 records are returned by default. Specifying start and end in the request will search the API within a given time interval. To make use of our time based index, the difference between start and end must not be greater than 60 minutes.</docs>
+<example url="records/{layer}/nearby/{lat},{lon}.{format}"/>
+<notes>Search the API using a given latitude and longitude. The default radius is 1 kilometer and 25 records are returned by default. Specifying start and end in the request will search the API within a given time interval. To make use of our time based index, the difference between start and end must not be greater than 60 minutes.</notes>
+</method>
+</resource>
+<resource path="nearby/address/{lat},{lon}.{format}">
+<param name="lat" required="true" type="xsd:string" style="query" default="37.77275"/>
+<param name="lon" required="true" type="xsd:string" style="query" default="-122.40572"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="get_nearby_address">
+<tags>
+<tag primary="true">Miscellaneous</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Does a reverse geocode lookup, which converts the given latitude and longitude into a human readable point with address, street, city, state, and county depending on where the person is currently located. NOTE: The reverse geocoder only works for coordinates in the US currently.</docs>
+<example url="nearby/address/{lat},{lon}.{format}"/>
+<notes>Does a reverse geocode lookup, which converts the given latitude and longitude into a human readable point with address, street, city, state, and county depending on where the person is currently located. NOTE: The reverse geocoder only works for coordinates in the US currently.</notes>
+</method>
+</resource>
+<resource path="contains/{lat},{lon}.{format}">
+<param name="lat" required="true" type="xsd:string" style="query" default="37.77275"/>
+<param name="lon" required="true" type="xsd:string" style="query" default="-122.40572"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="contains">
+<tags>
+<tag primary="true">Miscellaneous</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Does a "pushpin" query through a series of polygon layers and identifies the "cone" of administrative and other boundaries in which the point lies. Returns a list of features containing id, name, abbr, type and bounds fields.</docs>
+<example url="contains/{lat},{lon}.{format}"/>
+<notes>Does a "pushpin" query through a series of polygon layers and identifies the "cone" of administrative and other boundaries in which the point lies. Returns a list of features containing id, name, abbr, type and bounds fields.</notes>
+</method>
+</resource>
+<resource path="overlaps/{south},{west},{north},{east}.{format}">
+<param name="south" required="true" type="xsd:string" style="query" default="42.4166"/>
+<param name="west" required="true" type="xsd:string" style="query" default="-82.9189"/>
+<param name="north" required="true" type="xsd:string" style="query" default="42.4465"/>
+<param name="east" required="true" type="xsd:string" style="query" default="-82.8753"/>
+<param name="limit" required="false" type="xsd:string" style="query" default="20"/>
+<param name="type" required="false" type="xsd:string" style="query" default="Neighborhood"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="overlaps">
+<tags>
+<tag primary="true">Miscellaneous</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Queries a series of polygon layers and identifies the "cone" of administrative and other boundaries that overlap with the given bounding box. The arguments are expected in units of latitude and longitude. The results are returned in the same form as the contains query.</docs>
+<example url="overlaps/{south},{west},{north},{east}.{format}"/>
+<notes>Queries a series of polygon layers and identifies the "cone" of administrative and other boundaries that overlap with the given bounding box. The arguments are expected in units of latitude and longitude. The results are returned in the same form as the contains query.</notes>
+</method>
+</resource>
+<resource path="boundary/{id}.{format}">
+<param name="lon" required="true" type="xsd:string" style="query" default="Urban_Area:San_Francisco1:9q9jsg"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="boundary">
+<tags>
+<tag primary="true">Boundary</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Returns a feature object from the SimpleGeo gazetteer, as above, along with the geometry of the feature in GeoJSON format in the geometry field. The id parameter to this method should given in the same form as returned by the contains method above.</docs>
+<example url="boundary/{id}.{format}"/>
+<notes>Returns a feature object from the SimpleGeo gazetteer, as above, along with the geometry of the feature in GeoJSON format in the geometry field. The id parameter to this method should given in the same form as returned by the contains method above.</notes>
+</method>
+</resource>
+<resource path="density/{dayname}/{hour}/{lat},{lon}.{format}">
+<param name="dayname" required="true" type="xsd:string" style="query" default="mon"/>
+<param name="hour" required="true" type="xsd:string" style="query" default="15"/>
+<param name="lat" required="true" type="xsd:string" style="query" default="37.77275"/>
+<param name="lon" required="true" type="xsd:string" style="query" default="-122.40572"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="density_hour">
+<tags>
+<tag primary="true">Density</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Returns the Skyhook SpotRank data for the requested location on a given day and hour. dayname is one of: mon, tue, wed, thu, fri, sat, or sun. hour is between 0-23.</docs>
+<example url="density/{dayname}/{hour}/{lat},{lon}.{format}"/>
+<notes>Returns the Skyhook SpotRank data for the requested location on a given day and hour. dayname is one of: mon, tue, wed, thu, fri, sat, or sun. hour is between 0-23.</notes>
+</method>
+</resource>
+<resource path="density/{dayname}/{lat},{lon}.{format}">
+<param name="dayname" required="true" type="xsd:string" style="query" default="mon"/>
+<param name="lat" required="true" type="xsd:string" style="query" default="37.77275"/>
+<param name="lon" required="true" type="xsd:string" style="query" default="-122.40572"/>
+<param name="format" type="xsd:string" style="template" required="true" default="json">
+   <option value="json" mediaType="application/json"/>
+</param>
+<method name="GET" id="density_dayname">
+<tags>
+<tag primary="true">Density</tag>
+</tags>
+<authentication required="true"/>
+<docs url="https://simplegeo.zendesk.com/entries/208976-api-endpoints">Returns the Skyhook SpotRank data for the requested location on a given day. dayname is one of: mon, tue, wed, thu, fri, sat, or sun.</docs>
+<example url="density/{dayname}/{lat},{lon}.{format}"/>
+<notes>Returns the Skyhook SpotRank data for the requested location on a given day. dayname is one of: mon, tue, wed, thu, fri, sat, or sun.</notes>
+</method>
+</resource>
+</resources>
+</application>
+

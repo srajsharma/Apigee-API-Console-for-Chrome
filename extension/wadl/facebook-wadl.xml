@@ -1,0 +1,2279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="wadl_documentation-2006-10.xsl" type="text/xsl"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xsi:schemaLocation="http://www.w3.org/Submission/wadl/wadl.xsd"
+             xmlns:apigee="http://www.apigee.com/schema/2010/07/wadl/"
+             xmlns="http://wadl.dev.java.net/2009/02">
+
+    <resources base="https://graph.facebook.com">
+		<resource path="search">
+			<param name="q" required="true"  type="xsd:string" style="query" default="apigee"><notes>The search string</notes></param>
+			<param name="object" type="xsd:string" style="query" required="false" default="post">
+				<option value="post"/>
+				<option value="user"/>
+				<option value="page"/>
+				<option value="event"/>
+				<option value="group"/>
+				<option value="checkin"/>
+				<notes>Supports these types of objects: All public posts (post), people (user), pages (page), events (event), groups (group), check-ins (checkin)</notes>
+			</param>
+			<method name="GET" id="search">
+				<tags>
+					<tag primary="true">Search</tag>
+				</tags>
+				<authentication required="false"/>
+				<docs url="http://developers.facebook.com/docs/api"/>
+				<example url="/search?q={q}"/>
+				<notes>Search over all public objects in the social graph</notes>
+				<response>
+				</response>
+			</method>
+		</resource>
+        <resource path="{album}">
+            <param name="album" required="true" type="xsd:string" style="template" default="99394368305">
+                <notes>Represents the ID of the album object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getalbum">
+                <tags>
+                    <tag primary="true">Album</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/album"/>
+                <example url="/{album}"/>
+                <notes>A photo album</notes>
+                <response>
+                    <property name="id">The photo album ID</property>
+                    <property name="from">An object containing the ID and name of the profile who posted this album
+                    </property>
+                    <property name="name">The title of the album</property>
+                    <property name="description">The description of the album</property>
+                    <property name="location">The location of the album</property>
+                    <property name="link">A link to this album on Facebook</property>
+                    <property name="count">The number of photos in this album</property>
+                    <property name="created_time">The time the photo album was initially created</property>
+                    <property name="updated_time">The last time the photo album was updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{album}/photos">
+            <param name="album" required="true" type="xsd:string" style="template" default="99394368305">
+                <notes>Represents the ID of the album object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getalbumphotos">
+                <tags>
+                    <tag primary="true">Album</tag>
+                    <tag>Connection</tag>
+                    <tag>Photos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/album"/>
+                <example url="/{album}/photos"/>
+                <notes>The photos contained in this album</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{album}/comments">
+            <param name="album" required="true" type="xsd:string" style="template" default="99394368305">
+                <notes>Represents the ID of the album object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getalbumcomments">
+                <tags>
+                    <tag primary="true">Album</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/album"/>
+                <example url="/{album}/comments"/>
+                <notes>The comments made on this album</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getevent">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}"/>
+                <notes>Specifies information about an event, including the location, event name, and which invitees plan
+                    to attend.
+                </notes>
+                <response>
+                    <property name="id">The event ID</property>
+                    <property name="owner">An object containing the name and ID of the user who owns the event
+                    </property>
+                    <property name="name">The event title</property>
+                    <property name="description">The long-form HTML description of the event</property>
+                    <property name="start_time">The start time of the event, an ISO-8601 formatted date/time</property>
+                    <property name="end_time">The end time of the event, an ISO-8601 formatted date/time</property>
+                    <property name="location">The location for this event, a string name</property>
+                    <property name="venue">The location of this event, a structured address object with the properties
+                        street, city, state, zip, country, latitude, and longitude
+                    </property>
+                    <property name="privacy">The visibility of this event. Can be 'OPEN', 'CLOSED', or 'SECRET'
+                    </property>
+                    <property name="updated_time">The last time the event was updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/feed">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventfeed">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Feed</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/feed"/>
+                <notes>This event's wall</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/noreply">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventnoreply">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Noreply</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/noreply"/>
+                <notes>All of the users who have been not yet responded to their invitation to this event</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/maybe">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventmaybe">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Maybe</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/maybe"/>
+                <notes>All of the users who have been responded "Maybe" to their invitation to this event</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/invited">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventinvited">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Invited</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/invited"/>
+                <notes>All of the users who have been invited to this event</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/attending">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventattending">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Attending</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/attending"/>
+                <notes>All of the users who are attending this event</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/declined">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="geteventdeclined">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Declined</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/declined"/>
+                <notes>All of the users who declined their invitation to this event</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{event}/picture">
+            <param name="event" required="true" type="xsd:string" style="template" default="331218348435">
+                <notes>Represents the ID of the event object.</notes>
+            </param>
+            <param name="type" required="false" type="xsd:string" style="query" default="small">
+                <notes>One of square (50x50), small (50 pixels wide, variable height), and large (about 200 pixels wide,
+                    variable height)
+                </notes>
+            </param>
+            <method name="GET" id="geteventpicture">
+                <tags>
+                    <tag primary="true">Event</tag>
+                    <tag>Connection</tag>
+                    <tag>Picture</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/event"/>
+                <example url="/{event}/picture"/>
+                <notes>The event's profile picture</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{group}">
+            <param name="group" required="true" type="xsd:string" style="template" default="2204501798">
+                <notes>Represents the ID of the group object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getgroup">
+                <tags>
+                    <tag primary="true">Group</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/group"/>
+                <example url="/{group}"/>
+                <notes>A Facebook group</notes>
+                <response>
+                    <property name="id">The group ID</property>
+                    <property name="owner">An object containing the name and ID of the user who owns the group
+                    </property>
+                    <property name="name">The group title</property>
+                    <property name="description">The group description</property>
+                    <property name="link">The URL for the group's website</property>
+                    <property name="venue">The location of this group, a structured address object with the properties
+                        street, city, state, zip, country, latitude, and longitude
+                    </property>
+                    <property name="privacy">The privacy setting of the group, either 'OPEN', 'CLOSED', or 'SECRET'
+                    </property>
+                    <property name="updated_time">The last time the group was updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{group}/feed">
+            <param name="group" required="true" type="xsd:string" style="template" default="2204501798">
+                <notes>Represents the ID of the group object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getgroupfeed">
+                <tags>
+                    <tag primary="true">Group</tag>
+                    <tag>Connection</tag>
+                    <tag>Feed</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/group"/>
+                <example url="/{group}/feed"/>
+                <notes>This group's wall</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{group}/members">
+            <param name="group" required="true" type="xsd:string" style="template" default="2204501798">
+                <notes>Represents the ID of the group object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getgroupmembers">
+                <tags>
+                    <tag primary="true">Group</tag>
+                    <tag>Connection</tag>
+                    <tag>Members</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/group"/>
+                <example url="/{group}/members"/>
+                <notes>All of the users who are members of this group</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{group}/picture">
+            <param name="group" required="true" type="xsd:string" style="template" default="2204501798">
+                <notes>Represents the ID of the group object.</notes>
+            </param>
+            <param name="type" required="false" type="xsd:string" style="query" default="small">
+                <notes>One of square (50x50), small (50 pixels wide, variable height), and large (about 200 pixels wide,
+                    variable height)
+                </notes>
+            </param>
+            <method name="GET" id="getgrouppicture">
+                <tags>
+                    <tag primary="true">Group</tag>
+                    <tag>Connection</tag>
+                    <tag>Picture</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/group"/>
+                <example url="/{group}/picture"/>
+                <notes>The profile picture of this group</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{link}">
+            <param name="link" required="true" type="xsd:string" style="template" default="114961875194024">
+                <notes>Represents the ID of the link object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getlink">
+                <tags>
+                    <tag primary="true">Link</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/link"/>
+                <example url="/{link}"/>
+                <notes>A link shared on a user's wall</notes>
+                <response>
+                    <property name="id">The status message ID</property>
+                    <property name="from">An object containing the name and ID of the user who posted the link
+                    </property>
+                    <property name="link">The actual URL that was shared</property>
+                    <property name="message">The status message content</property>
+                    <property name="updated_time">The time the message was published</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{link}/comments">
+            <param name="link" required="true" type="xsd:string" style="template" default="114961875194024">
+                <notes>Represents the ID of the link object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getlinkcomments">
+                <tags>
+                    <tag primary="true">Link</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/link"/>
+                <example url="/{link}/comments"/>
+                <notes>All of the comments on this link</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{note}">
+            <param name="note" required="true" type="xsd:string" style="template" default="122788341354">
+                <notes>Represents the ID of the note object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getnote">
+                <tags>
+                    <tag primary="true">Note</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/note"/>
+                <example url="/{note}"/>
+                <notes>A Facebook note</notes>
+                <response>
+                    <property name="id">The note ID</property>
+                    <property name="from">The ID of the user who posted the note</property>
+                    <property name="subject">The title of the note</property>
+                    <property name="message">The note content, an HTML string</property>
+                    <property name="created_time">The time the note was initially published</property>
+                    <property name="updated_time">The time the note was last updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{note}/comments">
+            <param name="note" required="true" type="xsd:string" style="template" default="122788341354">
+                <notes>Represents the ID of the note object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getnotecomments">
+                <tags>
+                    <tag primary="true">Note</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/note"/>
+                <example url="/{note}/comments"/>
+                <notes>All of the comments on this note</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getpage">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}"/>
+                <notes>A</notes>
+                <response>
+                    <property name="id">The page's ID</property>
+                    <property name="name">The page's name</property>
+                    <property name="category">The page's category</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/feed">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagefeed">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Feed</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/feed"/>
+                <notes>The page's wall</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/picture">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="type" required="false" type="xsd:string" style="query" default="small">
+                <notes>One of square (50x50), small (50 pixels wide, variable height), and large (about 200 pixels wide,
+                    variable height)
+                </notes>
+            </param>
+            <method name="GET" id="getpagepicture">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Picture</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/picture"/>
+                <notes>The page's profile picture</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/tagged">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagetagged">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Tagged</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/tagged"/>
+                <notes>The photos, videos, and posts in which this page has been tagged</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/links">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagelinks">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Links</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/links"/>
+                <notes>The page's posted links</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/photos">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagephotos">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Photos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/photos"/>
+                <notes>The photos this page has uploaded</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/groups">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagegroups">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Groups</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/groups"/>
+                <notes>The groups this page is a member of</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/albums">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagealbums">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Albums</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/albums"/>
+                <notes>The photo albums this page has created</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/statuses">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagestatuses">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Statuses</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/statuses"/>
+                <notes>The page's status updates</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/videos">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagevideos">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Videos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/videos"/>
+                <notes>The videos this page has created</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/notes">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpagenotes">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Notes</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/notes"/>
+                <notes>The page's notes</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/posts">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpageposts">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Posts</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/posts"/>
+                <notes>The page's own posts</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{page}/events">
+            <param name="page" required="true" type="xsd:string" style="template" default="platform">
+                <notes>Represents the ID of the page object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpageevents">
+                <tags>
+                    <tag primary="true">Page</tag>
+                    <tag>Connection</tag>
+                    <tag>Events</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/page"/>
+                <example url="/{page}/events"/>
+                <notes>The events this page is attending</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{photo}">
+            <param name="photo" required="true" type="xsd:string" style="template" default="98423808305">
+                <notes>Represents the ID of the photo object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getphoto">
+                <tags>
+                    <tag primary="true">Photo</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/photo"/>
+                <example url="/{photo}"/>
+                <notes>An individual photo</notes>
+                <response>
+                    <property name="id">The photo ID</property>
+                    <property name="from">An object containing the name and ID of the user who posted the photo
+                    </property>
+                    <property name="tags">An array containing the users and their positions in this photo. The x and y
+                        coordinates are percentages from the left and top edges of the photo, respectively.
+                    </property>
+                    <property name="name">The caption given to this photo</property>
+                    <property name="picture">The album-sized view of the photo</property>
+                    <property name="source">The full-sized source of the photo</property>
+                    <property name="height">The height of the photo, in pixels</property>
+                    <property name="width">The width of the photo, in pixels</property>
+                    <property name="link">A link to the photo on Facebook</property>
+                    <property name="created_time">The time the photo was initially published</property>
+                    <property name="updated_time">The last time the photo or its caption was updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{photo}/comments">
+            <param name="photo" required="true" type="xsd:string" style="template" default="98423808305">
+                <notes>Represents the ID of the photo object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getphotocomments">
+                <tags>
+                    <tag primary="true">Photo</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/photo"/>
+                <example url="/{photo}/comments"/>
+                <notes>All of the comments on this photo</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{post}">
+            <param name="post" required="true" type="xsd:string" style="template" default="19292868552_118464504835613">
+                <notes>Represents the ID of the post object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getpost">
+                <tags>
+                    <tag primary="true">Post</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/post"/>
+                <example url="/{post}"/>
+                <notes>An individual entry in a profile's feed</notes>
+                <response>
+                    <property name="id">The post ID</property>
+                    <property name="from">An object containing the ID and name of the user who posted the message
+                    </property>
+                    <property name="to">A list of the profiles mentioned or targeted in this post</property>
+                    <property name="message">The message</property>
+                    <property name="picture">If available, a link to the picture included with this post</property>
+                    <property name="link">The link attached to this post</property>
+                    <property name="name">The name of the link</property>
+                    <property name="caption">The caption of the link (appears beneath the link name)</property>
+                    <property name="description">A description of the link (appears beneath the link caption)</property>
+                    <property name="source">If available, the source link attached to this post (for example, a flash or
+                        video file)
+                    </property>
+                    <property name="icon">A link to an icon representing the type of this post</property>
+                    <property name="attribution">A string indicating which application was used to create this post
+                    </property>
+                    <property name="actions">A list of available action names and links (including commenting, liking,
+                        and an optional app-specified action)
+                    </property>
+                    <property name="likes">The number of likes on this post</property>
+                    <property name="created_time">The time the post was initially published</property>
+                    <property name="updated_time">The time of the last comment on this post</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{post}/comments">
+            <param name="post" required="true" type="xsd:string" style="template" default="19292868552_118464504835613">
+                <notes>Represents the ID of the post object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getpostcomments">
+                <tags>
+                    <tag primary="true">Post</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/post"/>
+                <example url="/{post}/comments"/>
+                <notes>All of the comments on this post</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{status}">
+            <param name="status" required="true" type="xsd:string" style="template" default="367501354973">
+                <notes>Represents the ID of the status object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getstatus">
+                <tags>
+                    <tag primary="true">Status message</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/status"/>
+                <example url="/{status}"/>
+                <notes>A status message on a user's wall</notes>
+                <response>
+                    <property name="id">The status message ID</property>
+                    <property name="from">An object containing the name and ID of the user who posted the message
+                    </property>
+                    <property name="message">The status message content</property>
+                    <property name="updated_time">The time the message was published</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{status}/comments">
+            <param name="status" required="true" type="xsd:string" style="template" default="367501354973">
+                <notes>Represents the ID of the status object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getstatuscomments">
+                <tags>
+                    <tag primary="true">Status message</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/status"/>
+                <example url="/{status}/comments"/>
+                <notes>All of the comments on this message</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}">
+			<param name="user" required="true"  type="xsd:string" style="template" authdefault="me" default="robertscoble">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+			<param name="metadata" required="false"  type="xsd:string" style="query" default="0"><notes>The Graph API supports introspection of objects, which enables you to see all of the connections an object has without knowing its type ahead of time.</notes></param>
+            <method name="GET" id="getuser">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Object</tag>
+                </tags>
+				<authentication required="false"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}"/>
+                <notes>A user profile.</notes>
+                <response>
+                    <property name="id">The user's ID</property>
+                    <property name="first_name">The user's first name</property>
+                    <property name="last_name">The user's last name</property>
+                    <property name="name">The user's full name</property>
+                    <property name="link">A link to the user's profile</property>
+                    <property name="about">The user's blurb that appears under their profile picture</property>
+                    <property name="birthday">The user's birthday</property>
+                    <property name="work">A list of the work history from the user's profile</property>
+                    <property name="education">A list of the education history from the user's profile</property>
+                    <property name="email">The proxied or contact email address granted by the user</property>
+                    <property name="website">A link to the user's personal website.</property>
+                </response>
+            </method>
+        </resource>
+		<resource path="{user}/home">
+			<param name="user" required="true"  type="xsd:string" style="template" authdefault="me" default="robertscoble"><notes>Represents the ID of the user object.</notes></param>
+			<param name="metadata" required="false"  type="xsd:string" style="query" default="0"><notes>The Graph API supports introspection of objects, which enables you to see all of the connections an object has without knowing its type ahead of time.</notes></param>
+			<param name="q" required="false"  type="xsd:string" style="query" default="facebook"><notes>The text for which to search.</notes></param>
+			<method name="GET" id="getusersearch">
+				<tags>
+					<tag primary="true">Search</tag>
+					<tag>User</tag>
+				</tags>
+				<authentication required="true"/>
+				<docs url="http://developers.facebook.com/docs/reference/api/user"/>
+				<example url="/{user}/home?q={q}"/>
+				<notes>Search an individual user's News Feed, restricted to that user's friends</notes>
+				<response>
+				</response>
+			</method>
+		</resource>
+        <resource path="{user}/home">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserhome">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Home</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/home"/>
+                <notes>The user's News Feed. Requires the read_stream permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/feed">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserfeed">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Feed</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/feed"/>
+                <notes>The user's wall. Requires the read_stream permission to see non-public posts.</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/tagged">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusertagged">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Tagged</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/tagged"/>
+                <notes>The photos, videos, and posts in which this user has been tagged. Requires the user_photo_tags,
+                    user_video_tags, friend_photo_tags, or friend_video_tags permissions
+                </notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/posts">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserposts">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Posts</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/posts"/>
+                <notes>The user's own posts. Requires the read_stream permission to see non-public posts.</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/picture">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="type" required="false" type="xsd:string" style="query" default="small">
+                <notes>One of square (50x50), small (50 pixels wide, variable height), and large (about 200 pixels wide,
+                    variable height)
+                </notes>
+            </param>
+            <method name="GET" id="getuserpicture">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Picture</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/picture"/>
+                <notes>The user's profile picture</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/friends">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserfriends">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Friends</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/friends"/>
+                <notes>The user's friends</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/activities">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuseractivities">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Activities</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/activities"/>
+                <notes>The activities listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/checkins">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusercheckins">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Places</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api#places"/>
+                <example url="/{user}/checkins"/>
+                <notes>The music listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+
+        <resource path="{user}/interests">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserinterests">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Interests</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/interests"/>
+                <notes>The interests listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/music">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusermusic">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Music</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/music"/>
+                <notes>The music listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/books">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserbooks">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Books</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/books"/>
+                <notes>The books listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/movies">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusermovies">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Movies</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/movies"/>
+                <notes>The movies listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/television">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusertelevision">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Television</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/television"/>
+                <notes>The television listed on the user's profile</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/likes">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserlikes">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Likes</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/likes"/>
+                <notes>All the pages this user has liked. Requires the user_likes or friend_likes permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/photos">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserphotos">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Photos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/photos"/>
+                <notes>The photos this user is tagged in. Requires the user_photos or friend_photos permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/albums">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuseralbums">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Albums</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/albums"/>
+                <notes>The photo albums this user has created. Requires the user_photos or friend_photos permission
+                </notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/videos">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuservideos">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Videos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/videos"/>
+                <notes>The videos this user has been tagged in. Requires the user_videos or friend_videos permission.
+                </notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/groups">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusergroups">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Groups</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/groups"/>
+                <notes>The groups this user is a member of. Requires the user_groups or friend_groups permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/statuses">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserstatuses">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Statuses</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/statuses"/>
+                <notes>The user's status updates. Requires the read_stream permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/links">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserlinks">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Links</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/links"/>
+                <notes>The user's posted links. Requires the read_stream permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/notes">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getusernotes">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Notes</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/notes"/>
+                <notes>The user's notes. Requires the read_stream permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/events">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserevents">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Events</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/events"/>
+                <notes>The events this user is attending. Requires the user_events or friend_events permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/inbox">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserinbox">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Inbox</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/inbox"/>
+                <notes>The threads in this user's inbox. Requires the read_mailbox permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/outbox">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuseroutbox">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Outbox</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/outbox"/>
+                <notes>The messages in this user's outbox. Requires the read_mailbox permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{user}/updates">
+            <param name="user" required="true" type="xsd:string" style="template" default="me">
+                <notes>Represents the ID of the user object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getuserupdates">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Connection</tag>
+                    <tag>Updates</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/user"/>
+                <example url="/{user}/updates"/>
+                <notes>The updates in this user's inbox. Requires the read_mailbox permission</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{video}">
+            <param name="video" required="true" type="xsd:string" style="template" default="614004947048">
+                <notes>Represents the ID of the video object.</notes>
+            </param>
+            <param name="metadata" required="false" type="xsd:string" style="query" default="0">
+                <notes>The Graph API supports introspection of objects, which enables you to see all of the connections
+                    an object has without knowing its type ahead of time.
+                </notes>
+            </param>
+            <method name="GET" id="getvideo">
+                <tags>
+                    <tag primary="true">Video</tag>
+                    <tag>Object</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/video"/>
+                <example url="/{video}"/>
+                <notes>An individual video</notes>
+                <response>
+                    <property name="id">The video ID</property>
+                    <property name="from">An object containing the name and ID of the user who posted the video
+                    </property>
+                    <property name="message">The video title / caption</property>
+                    <property name="description">The long-form HTML description of the video</property>
+                    <property name="length">The length of the video, in seconds</property>
+                    <property name="created_time">The time the video was initially published</property>
+                    <property name="updated_time">The last time the video or its caption were updated</property>
+                </response>
+            </method>
+        </resource>
+        <resource path="{video}/comments">
+            <param name="video" required="true" type="xsd:string" style="template" default="614004947048">
+                <notes>Represents the ID of the video object.</notes>
+            </param>
+            <param name="since" required="false" type="xsd:string" style="query" default="last week">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="until" required="false" type="xsd:string" style="query" default="yesterday">
+                <notes>A unix timestamp or any date accepted by strtotime</notes>
+            </param>
+            <param name="limit" required="false" type="xsd:string" style="query" default="3">
+                <notes>Limit the number of items returned.</notes>
+            </param>
+            <param name="offset" required="false" type="xsd:string" style="query" default="2">
+                <notes>An offset to the response. Useful for paging.</notes>
+            </param>
+            <method name="GET" id="getvideocomments">
+                <tags>
+                    <tag primary="true">Video</tag>
+                    <tag>Connection</tag>
+                    <tag>Comments</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/reference/api/video"/>
+                <example url="/{video}/comments"/>
+                <notes>All of the comments on this video</notes>
+                <response>
+                </response>
+            </method>
+        </resource>
+        <resource path="{profile_id}/feed">
+            <param name="profile_id" required="true" type="xsd:string" style="template" default="me"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="I'm posting this from the Apigee API Console!">
+                <notes>The message</notes>
+            </param>
+            <param name="picture" required="false" type="xsd:string" style="header" default="{attachment}">
+                <notes>If available, a link to the picture included with this post</notes>
+            </param>
+            <param name="link" required="false" type="xsd:string" style="header"
+                   default="http://app.apigee.com/console/facebook">
+                <notes>The link attached to this post</notes>
+            </param>
+            <param name="caption" required="false" type="xsd:string" style="header"
+                   default="http://app.apigee.com/console/facebook">
+                <notes>The caption of the link (appears beneath the link name)</notes>
+            </param>
+            <param name="name" required="false" type="xsd:string" style="header" default="Apigee's API Console">
+                <notes>The name of the link</notes>
+            </param>
+            <param name="description" required="false" type="xsd:string" style="header"
+                   default="The API Console for Facebook allows you to quickly explore and test the Facebook API.">
+                <notes>A description of the link (appears beneath the link caption)</notes>
+            </param>
+            <method name="POST" id="postprofileidfeed">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Feed</tag>
+                    <tag>Profile</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{profile_id}/feed"/>
+                <notes>Write to the given profile's feed/wall.</notes>
+            </method>
+        </resource>
+        <resource path="{post_id}/comments">
+            <param name="post_id" required="true" type="xsd:string" style="template"
+                   default="163046417207_399962632207"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="Test comment, please ignore!">
+                <notes>comment on the given post</notes>
+            </param>
+            <method name="POST" id="postpostidcomments">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Post</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{post_id}/comments"/>
+                <notes>Comment on the given post</notes>
+            </method>
+        </resource>
+        <resource path="{post_id}/likes">
+            <param name="post_id" required="true" type="xsd:string" style="template"
+                   default="163046417207_399962632207"></param>
+            <method name="POST" id="postpostidlikes">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Post</tag>
+                    <tag>Like</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{post_id}/likes"/>
+                <notes>Write to the given profile's feed/wall.</notes>
+            </method>
+        </resource>
+      <!--  <resource path="{post_id}/comments">
+            <param name="post_id" required="true" type="xsd:string" style="template"
+                   default="163046417207_399962632207"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="Test comment, please ignore!">
+                <notes>comment on the given post</notes>
+            </param>
+            <method name="POST" id="postpostidcomments">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Post</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{post_id}/comments"/>
+                <notes>Comment on the given post</notes>
+            </method>
+        </resource> -->
+        <resource path="{profile_id}/notes">
+            <param name="profile_id" required="true" type="xsd:string" style="template" default="me"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="I'm posting this note from the Apigee API Console!">
+                <notes>The message</notes>
+            </param>
+            <param name="subject" required="true" type="xsd:string" style="header" default="Test post"></param>
+            <method name="POST" id="postprofileidnotes">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Notes</tag>
+                    <tag>Profile</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{profile_id}/notes"/>
+                <notes>Write a note on the given profile.</notes>
+            </method>
+        </resource>
+        <resource path="{profile_id}/links">
+            <param name="profile_id" required="true" type="xsd:string" style="template" default="me"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="I'm posting this link from the Apigee API Console!">
+                <notes>The message</notes>
+            </param>
+            <param name="link" required="true" type="xsd:string" style="header"
+                   default="http://app.apigee.com/console/facebook"></param>
+            <method name="POST" id="postprofileidlinks">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Links</tag>
+                    <tag>Profile</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{profile_id}/links"/>
+                <notes>Write a note on the given profile.</notes>
+            </method>
+        </resource>
+        <resource path="{event_id}/attending">
+            <param name="event_id" required="true" type="xsd:string" style="template" default="331218348435"></param>
+            <method name="POST" id="posteventidattending">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Event</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{event_id}/attending"/>
+                <notes>Attend the given event.</notes>
+            </method>
+        </resource>
+        <resource path="{event_id}/maybe">
+            <param name="event_id" required="true" type="xsd:string" style="template" default="331218348435"></param>
+            <method name="POST" id="posteventidmaybe">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Event</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{event_id}/maybe"/>
+                <notes>Maybe attend the given event.</notes>
+            </method>
+        </resource>
+        <resource path="{event_id}/declined">
+            <param name="event_id" required="true" type="xsd:string" style="template" default="331218348435"></param>
+            <method name="POST" id="posteventiddeclined">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Event</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{event_id}/declined"/>
+                <notes>Decline the given event.</notes>
+            </method>
+        </resource>
+        <resource path="{profile_id}/albums">
+            <param name="profile_id" required="true" type="xsd:string" style="template" default="me"></param>
+            <param name="message" required="true" type="xsd:string" style="header"
+                   default="This album was created via the Apigee API Console">
+                <notes>The message</notes>
+            </param>
+            <param name="name" required="true" type="xsd:string" style="header"
+                   default="http://app.apigee.com/console/facebook"></param>
+            <method name="POST" id="postprofileidalbums">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Albums</tag>
+                    <tag>Profile</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{profile_id}/albums"/>
+                <notes>Create an album.</notes>
+            </method>
+        </resource>
+        <resource path="{album_id}/photos">
+            <param name="album_id" required="true" type="xsd:string" style="template" default="me"></param>
+            <param name="message" required="true" type="xsd:string" style="header" default="{attachment}">
+                <notes>The photo</notes>
+            </param>
+            <!--Not sure whether the message should be the photo? docs are ambiguous-->
+            <method name="POST" id="postalbumidphotos">
+                <tags>
+                    <tag primary="true">Publish</tag>
+                    <tag>Albums</tag>
+                    <tag>Photos</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{album_id}/photos"/>
+                <notes>Upload a photo to an album.</notes>
+            </method>
+        </resource>
+        <resource path="{object_id}">
+            <param name="object_id" required="true" type="xsd:string" style="template" default="OBJECTID"></param>
+            <method name="DELETE" id="deleteobjectid">
+                <tags>
+                    <tag primary="true">Delete</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{object_id}"/>
+                <notes>Delete an object in the graph.</notes>
+            </method>
+        </resource>
+        <resource path="{post_id}/likes">
+            <param name="post_id" required="true" type="xsd:string" style="template" default="OBJECTID"></param>
+            <method name="DELETE" id="deletepostidlikes">
+                <tags>
+                    <tag primary="true">Delete</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://developers.facebook.com/docs/api"/>
+                <example url="/{post_id}/likes"/>
+                <notes>Remove a 'like' from a post.</notes>
+            </method>
+        </resource>
+		<resource path="{checkin}">
+			<param name="checkin" required="true"  type="xsd:string" style="template" authdefault="me" default="robertscoble"><notes>Represents the ID of the checkin object.</notes></param>
+			<param name="metadata" required="false"  type="xsd:string" style="query" default="0"><notes>The Graph API supports introspection of objects, which enables you to see all of the connections an object has without knowing its type ahead of time.</notes></param>
+			<method name="GET" id="getcheckin">
+				<tags>
+					<tag primary="true">Places</tag>
+				</tags>
+				<authentication required="false"/>
+				<docs url="http://developers.facebook.com/docs/reference/api/checkin"/>
+				<example url="/{checkin}"/>
+				<notes>A check-in that was made through Facebook Places.</notes>
+				<response>
+					<property name="id">The checkin id</property>
+					<property name="from">The ID and name of the user who made the check-in.</property>
+					<property name="tags">The users the author tagged in the check-in.</property>
+					<property name="place">The ID, name, and location of the Facebook Page that represents the location of the check-in.</property>
+					<property name="message">The message the user added to the check-in.</property>
+					<property name="coordinates">The latitude and longitude of the check-in location.</property>
+					<property name="application">The ID and name of the application that made the check-in.</property>
+					<property name="created_time">The time the check-in was created.</property>
+				</response>
+			</method>
+		</resource>
+    </resources>
+</application>
+        <!-- Should consider wrapping the param items in a params element-->

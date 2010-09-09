@@ -1,0 +1,30 @@
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://research.sun.com/wadl/2006/10                      https://wadl.dev.java.net/wadl20061109.xsd" xmlns="http://research.sun.com/wadl/2006/10">
+
+
+	<resources base="http://xml.truveo.com" supports_ssl="true">
+		<authentication_schemes>
+			<scheme name="appid" style="query">Application ID</scheme>
+			<scheme name="token" style="query">User Token</scheme>
+		</authentication_schemes>
+		<resource path="/{version}">
+			<param name="version" style="template" type="xsd:int"/>
+			<resource path="truveo/videos/getVideos">
+				<param name="query" type="xsd:string" style="query" required="false" default="Jennifer+Lopez">
+					<doc>String value. Optional. Default value of ' '. The query string that will be submitted to the Truveo video search engine. This string contains your search terms and can also include Boolean operators, modifiers, filters and sorters. For a complete listing of the supported functionality, see the documentation on search query syntax. If no query string or a blank query string is provided, this method will return the top videos ordered by vrank.</doc>
+				</param>
+				<method name="GET" display_name="truveo.videos.getVideos" id="getVideos">
+					<tags>
+						<tag primary="true">Search</tag>
+					</tags>
+					<request>
+						<param name="method" required="true" style="query" fixed="truveo.videos.getVideos"/>
+					</request>
+					<authentication required="false"/>
+					<doc url="http://developer.truveo.com/methodJSON.php?name=truveo.videos.getVideos">This method can be used to submit a query to the Truveo video search service. This method returns the set of video results that match the submitted query.</doc>
+					<response></response>
+					<example url="method={method}&amp;query={query}"/>
+				</method>
+			</resource>
+		</resource>
+	</resources>
+</application>

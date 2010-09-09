@@ -1,0 +1,1931 @@
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xsi:schemaLocation="http://research.sun.com/wadl/2006/10                      https://wadl.dev.java.net/wadl20061109.xsd"
+             xmlns="http://research.sun.com/wadl/2006/10" xmlns:t="urn:twitter:twitterresponse" xmlns:apigee="http://www.apigee.com/schema/2010/07/wadl/">
+    <grammars>
+        <response-codes>
+            <code name="200" value="OK: Success!"/>
+            <code name="304" value="Not Modified: There was no new data to return."/>
+            <code name="400"
+                  value="Bad Request: The request was invalid. An accompanying error message will explain why. This is the status code will be returned during rate limiting."/>
+            <code name="401" value="Unauthorized: Authentication credentials were missing or incorrect."/>
+            <code name="403"
+                  value="Forbidden: The request is understood, but it has been refused. An accompanying error message will explain why. This code is used when requests are being denied due to update limits."/>
+            <code name="404"
+                  value="Not Found: The URI requested is invalid or the resource requested, such as a user, does not exists."/>
+            <code name="406"
+                  value="Not Acceptable: Returned by the Search API when an invalid format is specified in the request."/>
+            <code name="420"
+                  value="Enhance Your Calm: Returned by the Search and Trends API  when you are being rate limited."/>
+            <code name="500"
+                  value="Internal Server Error: Something is broken. Please post to the group so the Twitter team can investigate."/>
+            <code name="502" value="Bad Gateway: Twitter is down or being upgraded."/>
+            <code name="503"
+                  value="Service Unavailable: The Twitter servers are up, but overloaded with requests. Try again later."/>
+        </response-codes>
+    </grammars>
+
+    <representation id="responseCodes" element="responseCodes"/>
+
+    <resources base="http://api.twitter.com/1">
+        <resource path="statuses/public_timeline.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <method name="GET" id="statusespublic_timeline">
+                <tags>
+                    <tag primary="true">Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/public_timeline"/>
+                <example url="/statuses/public_timeline.{format}"/>
+                <notes>Returns the 20 most recent statuses from non-protected users who have set a custom user icon.
+                    <a href="http://groups.google.com/group/twitter-development-talk/browse_thread/thread/f881564598a947a7#">
+                        The public timeline is cached for 60 seconds
+                    </a>
+                    so requesting it more often than that is a waste of resources.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/home_timeline.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="5"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <param name="skip_user" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_entities" required="false" type="xsd:string" style="query" default="true"/>
+            <method name="GET" id="statuseshome_timeline">
+                <tags>
+                    <tag primary="true">Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/home_timeline"/>
+                <example url="/statuses/home_timeline.{format}"/>
+                <notes>
+                    <p>Returns the 20 most recent statuses, including retweets, posted by the authenticating user and
+                        that user's friends. This is the equivalent of /timeline/home on the Web.
+                    </p>
+                    <p>
+                        <b>Usage note:</b>
+                        This home_timeline is identical to statuses/friends_timeline except it also contains retweets,
+                        which statuses/friends_timeline does not (for backwards compatibility reasons). In a future
+                        version of the API, statuses/friends_timeline will go away and be replaced by home_timeline.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/friends_timeline.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="5"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <param name="skip_user" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_entities" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_rts" required="false" type="xsd:string" style="query" default="true"/>
+            <method name="GET" id="statusesfriends_timeline">
+                <tags>
+                    <tag primary="true">Timeline</tag>
+                    <tag>Status</tag>
+                    <tag>Friend</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/friends_timeline"/>
+                <example url="/statuses/friends_timeline.{format}"/>
+                <notes>
+                    <p>Returns the 20 most recent statuses posted by the authenticating user and that user's friends.
+                        This is the equivalent of /timeline/home on the Web.
+                    </p>
+                    <p>
+                        <b>Note:</b>
+                        Retweets will not appear in the friends_timeline for backwards compatibility. If you want
+                        retweets included use Twitter REST API Method: statuses home_timeline.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/user_timeline.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="user_id" required="false" type="xsd:string" style="query" authdefault="#id"
+                   default="10330576396"/>
+            <param name="screen_name" required="false" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="skip_user" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_entities" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_rts" required="false" type="xsd:string" style="query" default="true"/>
+            <!--			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> -->
+            <method name="GET" id="statusesuser_timeline">
+                <tags>
+                    <tag primary="true">Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/user_timeline"/>
+                <example url="/statuses/user_timeline.{format}?screen_name={screen_name}"/>
+                <!-- note: authenticated wouldn't need screen_name &-->
+                <notes>
+                    <p>Returns the 20 most recent statuses posted from the authenticating user. It's also possible to
+                        request another user's timeline via the id parameter. This is the equivalent of the Web/user
+                        page for your own user, or the profile page for a third party.
+                    </p>
+                    <p>
+                        <b>Note:</b>
+                        Authentication is required if requesting a protected user's timeline. For backwards
+                        compatibility reasons, retweets are stripped out of the user_timeline when calling in XML or
+                        JSON (they appear with 'RT' in RSS and Atom). If you'd like them included, you can merge them in
+                        from statuses retweeted_by_me.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/mentions.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <param name="include_entities" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="include_rts" required="false" type="xsd:string" style="query" default="true"/>
+            <param name="skip_user" required="false" type="xsd:string" style="query" default="true"/>
+            <method name="GET" id="statusesmentions">
+                <tags>
+                    <tag primary="true">Timeline</tag>
+                    <tag>Mention</tag>
+                    <tag>Status</tag>
+                    <tag>User</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/mentions"/>
+                <example url="/statuses/mentions.{format}"/>
+                <notes>Returns the 20 most recent mentions (status containing @username) for the authenticating user.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/retweeted_by_me.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <method name="GET" id="statusesretweeted_by_me">
+                <tags>
+                    <tag primary="true">Retweet</tag>
+                    <tag>Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/retweeted_by_me"/>
+                <example url="/statuses/retweeted_by_me.{format}"/>
+                <notes>Returns the 20 most recent retweets posted by the authenticating user.</notes>
+            </method>
+        </resource>
+        <resource path="statuses/retweeted_to_me.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <method name="GET" id="statusesretweeted_to_me">
+                <tags>
+                    <tag primary="true">Retweet</tag>
+                    <tag>Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/retweeted_to_me"/>
+                <example url="/statuses/retweeted_to_me.{format}"/>
+                <notes>Returns the 20 most recent retweets posted by the authenticating user's friends.</notes>
+            </method>
+        </resource>
+        <resource path="statuses/retweets_of_me.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <method name="GET" id="statusesretweets_of_me">
+                <tags>
+                    <tag primary="true">Retweet</tag>
+                    <tag>Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/retweets_of_me"/>
+                <example url="/statuses/retweets_of_me.{format}"/>
+                <notes>Returns the 20 most recent tweets of the authenticated user that have been retweeted by others.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/{id}/retweeted_by.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="12164581432"/>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <method name="GET" id="statusesretweeted_by">
+                <tags>
+                    <tag primary="true">Retweet</tag>
+                    <tag>Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/id/retweeted_by"/>
+                <example url="/statuses/{id}/retweeted_by.{format}"/>
+                <notes>Show user objects of up to 100 members who retweeted the status.</notes>
+            </method>
+        </resource>
+        <resource path="statuses/{id}/retweeted_by/ids.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="12164581432"/>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <method name="GET" id="statusesretweeted_by">
+                <tags>
+                    <tag primary="true">Retweet</tag>
+                    <tag>Timeline</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/id/retweeted_by"/>
+                <example url="/statuses/{id}/retweeted_by/ids.{format}?id={id}"/>
+                <notes>Show user ids of up to 100 users who retweeted the status.</notes>
+            </method>
+        </resource>
+        <resource path="statuses/show/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#status.id"
+                   default="10279582992"/>
+            <method name="GET" id="statusesshow">
+                <tags>
+                    <tag primary="true">Status</tag>
+                </tags>
+                <authentication required="false,"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/show"/>
+                <example url="/statuses/show/10279582992.{format}"/>
+                <notes>Returns a single status, specified by the id parameter below. The status's author will be
+                    returned inline.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/update.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="status" required="true" type="xsd:string" style="query"
+                   default="Posting from @apigee's API test console. It's like a command line for the Twitter API! "/>
+            <param name="place_id" required="false" type="xsd:string" style="query" authdefault=""
+                   default="7695dd2ec2f86f2b"/>
+            <param name="long" required="false" type="xsd:string" style="query" authdefault="" default="-122.40060"/>
+            <param name="in_reply_to_status_id" required="false" type="xsd:string" style="query" default="11432445742"/>
+            <param name="display_coordinates" required="false" type="xsd:string" style="query" default="false"/>
+            <!-- at some point make this contextual to the user &-->
+            <param name="lat" required="false" type="xsd:string" style="query" authdefault="" default="37.78215"/>
+            <param name="annotations" required="false" type="xsd:string" style="query"
+                   default="[{'TYPE':{'ATTRIBUTE':'VALUE'}}]"/>
+            <method name="POST" id="statusesupdate">
+                <tags>
+                    <tag primary="true">Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/statuses/update"/>
+                <example url="/statuses/update.{format}?status={status}"/>
+                <notes>Updates the authenticating user's status. Requires the status parameter specified below. Request
+                    must be a POST. A status update with text identical to the authenticating user's current status will
+                    be ignored to prevent duplicates.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/destroy/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#status.id"
+                   default="1472669360"/>
+            <method name="DELETE" id="statusesdestroy">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/statuses/destroy"/>
+                <example url="/statuses/destroy/{id}.{format}"/>
+                <notes>Destroys the status specified by the required ID parameter. The authenticating user must be the
+                    author of the specified status.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/retweet/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="10279582992"/>
+            <method name="POST" id="statusesretweetid">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/statuses/retweet"/>
+                <example url="/statuses/retweet/{id}.{format}"/>
+                <notes>Retweets a tweet. Requires the id parameter of the tweet you are retweeting. Request must be a
+                    POST or PUT. Returns the original tweet with retweet details embedded.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/retweets/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#status.id"
+                   default="11432445742"/>
+            <param name="count" required="false" type="xsd:string" style="query" default="100"/>
+            <method name="GET" id="statusesretweets">
+                <tags>
+                    <tag primary="true">Status</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/retweets"/>
+                <example url="/statuses/retweets/{id}.{format}"/>
+                <notes>Returns up to 100 of the first retweets of a given tweet.</notes>
+            </method>
+        </resource>
+        <resource path="users/show.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#id" default="10330576396"/>
+                <!-- superfluous			<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#screen_name" default="apigee"/>
+            </choice>
+            <method name="GET" id="usersshow">
+                <tags>
+                    <tag primary="true">User</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/users/show"/>
+                <example url="/users/show.{format}?screen_name={screen_name}"/>
+                <notes>Returns extended information of a given user, specified by ID or screen name as per the required
+                    id parameter. The author's most recent status will be returned inline.
+                </notes>
+            </method>
+        </resource>
+        <resource path="users/lookup.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <!-- could add multiple comma separated values to params &-->
+                <param name="user_id" type="xsd:string" style="query" authdefault="#id" default="10330576396"/>
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#screen_name" default="apigee"/>
+            </choice>
+            <method name="GET" id="userslookup">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">User</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/users/lookup"/>
+                <example url="/users/lookup.{format}?screen_name={screen_name},sonoa&amp;user_id={user_id}"/>
+                <notes>Return up to 100 users worth of extended information, specified by either ID, screen name, or
+                    combination of the two. The author's most recent status (if the authenticating user has permission)
+                    will be returned inline.
+                </notes>
+            </method>
+        </resource>
+        <resource path="users/search.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="q" required="true" type="xsd:string" style="query" authdefault="#name"
+                   default="Marsh Gardiner"/>
+            <param name="per_page" required="false" type="xsd:string" style="query" default="20"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <method name="GET" id="userssearch">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Search</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/users/search"/>
+                <example url="/users/search.{format}?q={q}"/>
+                <notes>Run a search for users similar to
+                    <a href="http://twitter.com/invitations/find_on_twitter">Find People</a>
+                    button on<a href="http://twitter.com">Twitter.com</a>; the same results returned by people search on
+                    Twitter.com will be returned by using this API (<a
+                            href="http://help.twitter.com/forums/31935/entries/60660">about being listed in the People
+                        Search</a>). It is only possible to retrieve the first 1000 matches from this API.
+                </notes>
+            </method>
+        </resource>
+        <resource path="users/suggestions.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="userssuggestions">
+                <tags>
+                    <tag primary="true">User</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/users/suggestions"/>
+                <example url="/users/suggestions.{format}"/>
+                <notes>Access to Twitter's suggested user list. This returns the list of suggested user categories. The
+                    category can be used in the
+                    <a href="/Twitter-REST-API-Method%3A-GET-users-suggestions-category">users/suggestions/category</a>
+                    endpoint to get the users in that category.
+                </notes>
+            </method>
+        </resource>
+        <resource path="users/suggestions/{category}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="category" type="xsd:string" style="template" required="true" default="twitter">
+                <option value="art-design"/>
+                <option value="books"/>
+                <option value="business"/>
+                <option value="charity"/>
+                <option value="cuisine"/>
+                <option value="entertainment"/>
+                <option value="family"/>
+                <option value="fashion"/>
+                <option value="funny"/>
+                <option value="health"/>
+                <option value="music"/>
+                <option value="news"/>
+                <option value="politics"/>
+                <option value="science"/>
+                <option value="sports"/>
+                <option value="staff-picks"/>
+                <option value="staff-picks-for-haiti"/>
+                <option value="technology"/>
+                <option value="travel"/>
+                <option value="twitter"/>
+            </param>
+            <method name="GET" id="userssuggestionscategory">
+                <tags>
+                    <tag primary="true">User</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/users/suggestions/slug"/>
+                <example url="/users/suggestions/{category}.{format}"/>
+                <notes>Access the users in a given category of the Twitter suggested user list. It is recommended that
+                    end clients cache this data for no more than one hour.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/friends.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <choice required="{unsecure}" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#id" default="10330576396"/>
+                <!-- superfluous		<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#screen_name" default="apigee"/>
+            </choice>
+            <method name="GET" id="statusesfriends">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/friends"/>
+                <example url="/statuses/friends.{format}?screen_name={screen_name}"/>
+                <!--no params required if auth&-->
+                <notes>Returns a user's friends, each with current status inline. They are ordered by the order in which
+                    the user followed them, most recently followed first, 100 at a time. (Please note that the result
+                    set isn't guaranteed to be 100 every time as suspended users will be filtered out.) Use the cursor
+                    option to access older friends. With no user specified, request defaults to the authenticated user's
+                    friends. It's also possible to request another user's friends list via the id, screen_name or
+                    user_id parameter.
+                </notes>
+            </method>
+        </resource>
+        <resource path="statuses/followers.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <choice required="{unsecure}">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#id" default="10330576396"/>
+                <!-- superfluous		<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#screen_name" default="apigee"/>
+            </choice>
+            <method name="GET" id="statusesfollowers">
+                <tags>
+                    <tag primary="true">User</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/statuses/followers"/>
+                <example url="/statuses/followers.{format}?screen_name={screen_name}"/>
+                <!--no params required if authorized&-->
+                <notes>Returns the authenticating user's followers, each with current status inline. They are ordered by
+                    the order in which they followed the user, 100 at a time. (Please note that the result set isn't
+                    guaranteed to be 100 every time as suspended users will be filtered out.) Use the cursor option to
+                    access earlier followers.
+                </notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="description" required="false" type="xsd:string" style="query"
+                   default="They make APIs better."/>
+            <param name="name" required="true" type="xsd:string" style="query" default="API"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <param name="mode" required="false" type="xsd:string" style="query" default="public"/>
+            <method name="POST" id="userlistscreate">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/:user/lists"/>
+                <example url="/{user}/lists.{format}"/>
+                <notes>Creates a new list for the authenticated user. Accounts are limited to 20 lists.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="description" required="false" type="xsd:string" style="query"
+                   default="They make APIs better."/>
+            <param name="name" required="true" type="xsd:string" style="query" default="APIs"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#id" default="apigee"/>
+            <param name="mode" required="false" type="xsd:string" style="query" default="public"/>
+            <method name="POST" id="userlistsidupdate">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag>Lists</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/:user/lists/:id"/>
+                <example url="/{user}/lists/{id}.{format}"/>
+                <notes>Updates the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="userlistsindex">
+                <tags>
+                    <tag>List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/lists"/>
+                <example url="/{user}/lists.{format}"/>
+                <notes>List the lists of the specified user. Private lists will be included if the authenticated users
+                    is the same as the user whose lists are being returned.
+                </notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="userlistsidshow">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/lists/:id"/>
+                <example url="/{user}/lists/{id}.{format}"/>
+                <notes>Show the specified list. Private lists will only be shown if the authenticated user owns the
+                    specified list.
+                </notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="DELETE" id="userlistsiddestroy">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/delete/:user/lists/:id"/>
+                <example url="/{user}/lists/{id}.{format}"/>
+                <notes>Deletes the specified list. Must be owned by the authenticated user.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/{list_id}/statuses.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="per_page" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="userlistsstatuses">
+                <tags>
+                    <tag primary="true">List</tag>
+                    <tag>Status</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/lists/:id/statuses"/>
+                <example url="/{user}/lists/{list_id}/statuses.{format}"/>
+                <notes>Show tweet timeline for members of the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/memberships.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="userlistsmemberships">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/lists/memberships"/>
+                <example url="/{user}/lists/memberships.{format}"/>
+                <notes>List the lists the specified user has been added to.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/lists/subscriptions.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="userlistssubscriptions">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/lists/subscriptions"/>
+                <example url="/{user}/lists/subscriptions.{format}"/>
+                <notes>List the lists the specified user follows.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/members.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="getuserlist_idmembers">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/:list_id/members"/>
+                <example url="/{user}/{list_id}/members.{format}"/>
+                <notes>Returns the members of the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/members.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="apigee"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="POST" id="postuserlist_idmembers">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/:user/:list_id/members"/>
+                <example url="/{user}/{list_id}/members.{format}"/>
+                <notes>Add a member to a list. The authenticated user must own the list to be able to add members to it.
+                    Lists are limited to having 500 members.
+                </notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/members.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="earth2marsh"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="DELETE" id="deleteuserlist_idmembers">
+                <!--(clients who can not issue DELETE requests can POST with the added parameter _method=DELETE)&-->
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/delete/:user/:id/members"/>
+                <example url="/{user}/{list_id}/members.{format}"/>
+                <notes>Removes the specified member from the list. The authenticated user must be the list's owner to
+                    remove members from the list.
+                </notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/members/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="apigee"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="getuserlist_idmembersid">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/:list_id/members/:id"/>
+                <example url="/{user}/{list_id}/members/{id}.{format}"/>
+                <notes>Check if a user is a member of the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/subscribers.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="false" type="xsd:string" style="query" default="-1"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="getuserlist_idsubscribers">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/:list_id/subscribers"/>
+                <example url="/{user}/{list_id}/subscribers.{format}"/>
+                <notes>Returns the subscribers of the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/subscribers.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="POST" id="postuserlist_idsubscribers">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/:user/:list_id/subscribers"/>
+                <example url="/{user}/{list_id}/subscribers.{format}"/>
+                <notes>Make the authenticated user follow the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/subscribers.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="earth2marsh"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="DELETE" id="deleteuserlist_idsubscribers">
+                <!--(clients who can not issue DELETE requests can POST with the added parameter _method=DELETE)&-->
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/delete/:user/:id/subscribers"/>
+                <example url="/{user}/{list_id}/subscribers.{format}"/>
+                <notes>Unsubscribes the authenticated user form the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="{user}/{list_id}/subscribers/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="earth2marsh"/>
+            <param name="list_id" required="true" type="xsd:string" style="query" authdefault="#lists[0].slug"
+                   default="team"/>
+            <param name="user" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <method name="GET" id="getuserlist_idsubscribersid">
+                <tags>
+                    <tag primary="true">List</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/:user/:list_id/subscribers/:id"/>
+                <example url="/{user}/{list_id}/subscribers/{id}.{format}"/>
+                <notes>Check if the specified user is a subscriber of the specified list.</notes>
+            </method>
+        </resource>
+        <resource path="direct_messages.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <method name="GET" id="direct_messages">
+                <tags>
+                    <tag primary="true">Direct Message</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/direct_messages"/>
+                <example url="/direct_messages.{format}"/>
+                <notes>Returns a list of the 20 most recent direct messages sent to the authenticating user. The XML and
+                    JSON versions include detailed information about the sending and recipient users.
+                </notes>
+            </method>
+        </resource>
+        <resource path="direct_messages/sent.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="count" required="false" type="xsd:string" style="query" default="200"/>
+            <param name="max_id" required="false" type="xsd:string" style="query" default="54321"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <param name="since_id" required="false" type="xsd:string" style="query" default="12345"/>
+            <method name="GET" id="direct_messagessent">
+                <tags>
+                    <tag primary="true">Direct Message</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/direct_messages/sent"/>
+                <example url="/direct_messages/sent.{format}"/>
+                <notes>Returns a list of the 20 most recent direct messages sent by the authenticating user. The XML and
+                    JSON versions include detailed information about the sending and recipient users.
+                </notes>
+            </method>
+        </resource>
+        <resource path="direct_messages/new.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="text" required="true" type="xsd:string" style="query"
+                   default="Check it out... I'm sending this direct message from Apigee's test console for Twitter!"/>
+            <choice required="true" count_max="1">
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#followers[0].screen_name"
+                       default="apigee"/>
+                <!-- superfluous		<param name="user" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="user_id" type="xsd:string" style="query" authdefault="#followers[0].id"
+                       default="10330576396"/>
+            </choice>
+            <method name="POST" id="direct_messagesnew">
+                <tags>
+                    <tag primary="true">Direct Message</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/direct_messages/new"/>
+                <example url="/direct_messages/new.{format}?screen_name={screen_name}&amp;text={text}"/>
+                <notes>Sends a new direct message to the specified user from the authenticating user. Requires both the
+                    user and text parameters. Request must be a POST. Returns the sent message in the requested format
+                    when successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="direct_messages/destroy/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="direct_messages[0]"
+                   default="12345"/>
+            <method name="DELETE" id="direct_messagesdestroy">
+                <!-- also takes post &-->
+                <tags>
+                    <tag primary="true">Direct Message</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/direct_messages/destroy"/>
+                <example url="/direct_messages/destroy/{id}.{format}"/>
+                <notes>Destroys the direct message specified in the required ID parameter. The authenticating user must
+                    be the recipient of the specified direct message.
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/create.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" default="10330576396"/>
+                <!-- superfluous			<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" default="apigee"/>
+            </choice>
+            <param name="follow" type="xsd:string" style="query" required="false" default="true"/>
+            <method name="POST" id="friendshipscreate">
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/friendships/create"/>
+                <example url="/friendships/create.{format}?screen_name={screen_name}"/>
+                <notes>Allows the authenticating users to follow the user specified in the ID parameter. Returns the
+                    befriended user in the requested format when successful. Returns a string describing the failure
+                    condition when unsuccessful. If you are already friends with the user an HTTP 403 will be returned.
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/destroy.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#friends[0].id"
+                       default="10623059444"/>
+                <!-- superfluous			<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#friends[0].screen_name"
+                       default="sonoa"/>
+            </choice>
+            <method name="DELETE" id="friendshipsdestroy">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/friendships/destroy"/>
+                <example url="/friendships/destroy.{format}?screen_name={screen_name}"/>
+                <notes>Allows the authenticating users to unfollow the user specified in the ID parameter. Returns the
+                    unfollowed user in the requested format when successful. Returns a string describing the failure
+                    condition when unsuccessful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/exists.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="user_b" required="true" type="xsd:string" style="query" authdefault="#friends[0].screen_name"
+                   default="apigee"/>
+            <param name="user_a" required="true" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="sonoa"/>
+            <method name="GET" id="friendshipsexists">
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/friendships/exists"/>
+                <example url="/friendships/exists.{format}?user_a={user_a}&amp;user_b={user_b}"/>
+                <notes>Tests for the existence of friendship between two users. Will return true if user_a follows
+                    user_b, otherwise will return false. Also try the friendship/show method, which gives even more
+                    information with a single call!
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/show.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="{unsecure}" count_max="1">
+                <param name="source_screen_name" type="xsd:string" style="query" default="sonoa"/>
+                <param name="source_id" required="the" type="xsd:string" style="query" default="10623059444"/>
+            </choice>
+            <choice required="true" count_max="1">
+                <param name="target_screen_name" type="xsd:string" style="query" authdefault="#friend[0].screen_name"
+                       default="apigee"/>
+                <param name="target_id" required="the" type="xsd:string" style="query" authdefault="#friend[0].id"
+                       default="10330576396"/>
+            </choice>
+            <method name="GET" id="friendshipsshow">
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/friendships/incoming"/>
+                <example
+                        url="/friendships/show.{format}?target_screen_name={target_screen_name}&amp;source_screen_name={source_screen_name}"/>
+                <notes>
+                    <p>Returns detailed information about the relationship between two users.</p>
+                    <ul>
+                        <li>If this method is invoked as an authenticated request, the method will use the authenticated
+                            user as the source user implicitly. However, a source explicitly specified with parameters
+                            will override an authenticated user as the source of the relationship query.
+                        </li>
+                        <li>If the source is not specified for an unauthenticated request, the method will return an
+                            HTTP 403.
+                        </li>
+                        <li>If a source or target is specified but does not exist, the method will return an HTTP 404.
+                        </li>
+                        <li>&gt;notifications_enabled&lt; details whether the source user is receiving device
+                            notifications regarding status updates of the target user. Due to its private nature, the
+                            &gt;notifications_enabled&lt; element will only be populated for an authenticated source
+                            user within the &gt;source&lt; element. For unauthenticated source users and target users,
+                            the &gt;notifications_enabled&lt; element will be empty.
+                        </li>
+                        <li>&gt;blocking&lt; details whether the source user is blocking the target user. Due to its
+                            private nature, the &gt;blocking&lt; element will only be populated for an authenticated
+                            source user within the &gt;source&lt; element. For unauthenticated source users and target
+                            users, the &gt;blocking&lt; element will be empty.
+                        </li>
+                        <li>This method returns redundant data, in that the bi-directional relationship of the source
+                            and target can be determined by looking at the &gt;following&lt; and &gt;followed_by&lt;
+                            element within either the &gt;source&lt; or &gt;target&lt; nodes. We deliver this data twice
+                            in denormalized form for convenience and increased readability.
+                        </li>
+                    </ul>
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/incoming.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="true" type="xsd:string" style="query" default="-1"/>
+            <method name="GET" id="friendshipsexists.format">
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://apiwiki.twitter.com/Twitter-REST-API-Method:-friendships-incoming"/>
+                <example url="/friendships/incoming.{format}?cursor={cursor}"/>
+                <notes>Returns an array of numeric IDs for every user who has a pending request to follow the
+                    authenticating user.
+                </notes>
+            </method>
+        </resource>
+        <resource path="friendships/outgoing.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="cursor" required="true" type="xsd:string" style="query" default="-1"/>
+            <method name="GET" id="friendshipsoutgoing.format">
+                <tags>
+                    <tag primary="true">Friendship</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/friendships/outgoing"/>
+                <example url="/friendships/outgoing.{format}?cursor={cursor}"/>
+                <notes>Returns an array of numeric IDs for every user who has a pending request to follow the
+                    authenticating user.
+                </notes>
+            </method>
+        </resource>
+        <resource path="friends/ids.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="user_id" required="false" type="xsd:string" style="query" authdefault="#id"
+                       default="10330576396"/>
+                <param name="screen_name" required="false" type="xsd:string" style="query" authdefault="#screen_name"
+                       default="apigee"/>
+            </choice>
+            <param name="cursor" required="true" type="xsd:string" style="query" default="-1"/>
+            <method name="GET" id="friendsids">
+                <tags>
+                    <tag primary="true">Social Graph</tag>
+                    <tag>Friendship</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/friends/ids"/>
+                <example url="/friends/ids.{format}?screen_name={screen_name}"/>
+                <notes>Returns an array of numeric IDs for every user the specified user is following.</notes>
+            </method>
+        </resource>
+        <resource path="followers/ids.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="user_id" required="false" type="xsd:string" style="query" authdefault="#id"
+                       default="10330576396"/>
+                <param name="screen_name" required="false" type="xsd:string" style="query" authdefault="#screen_name"
+                       default="apigee"/>
+            </choice>
+            <param name="cursor" required="true" type="xsd:string" style="query" default="-1"/>
+            <method name="GET" id="followersids">
+                <tags>
+                    <tag primary="true">Social Graph</tag>
+                    <tag>Follow</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/followers/ids"/>
+                <example url="/followers/ids.{format}?screen_name={screen_name}"/>
+                <notes>Returns an array of numeric IDs for every user following the specified user.</notes>
+            </method>
+        </resource>
+        <resource path="account/verify_credentials.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="accountverify_credentials">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/account/verify_credentials"/>
+                <example url="/account/verify_credentials.{format}"/>
+                <notes>Returns an HTTP 200 OK response code and a representation of the requesting user if
+                    authentication was successful; returns a 401 status code and an error message if not. Use this
+                    method to test if supplied user credentials are valid.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/rate_limit_status.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="accountrate_limit_status">
+                <tags>
+                    <tag primary="true">Account</tag>
+                    <tag>Help</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/account/rate_limit_status"/>
+                <example url="/account/rate_limit_status.{format}"/>
+                <notes>Returns the remaining number of API requests available to the requesting user before the API
+                    limit is reached for the current hour. Calls to rate_limit_status do not count against the rate
+                    limit. If authentication credentials are provided, the rate limit status for the authenticating user
+                    is returned. Otherwise, the rate limit status for the requester's IP address is returned. Learn more
+                    about the<a href="http://apiwiki.twitter.com/Rate-limiting">REST API rate limiting</a>.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/end_session.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="POST" id="accountend_session">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/end_session"/>
+                <apigee:endsSession>true</apigee:endsSession>
+                <example url="/account/end_session.{format}"/>
+                <notes>Ends the session of the authenticating user, returning a null cookie. Use this method to sign
+                    users out of client-facing applications like widgets.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/update_delivery_device.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="device" required="true" type="xsd:string" style="query" default="sms"/>
+            <method name="POST" id="accountupdate_delivery_device">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/update_delivery_device"/>
+                <example url="/account/update_delivery_device.{format}?device={device}"/>
+                <notes>Sets which device Twitter delivers updates to for the authenticating user. Sending none as the
+                    device parameter will disable IM or SMS updates.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/update_profile_colors.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="false" count_max="5" count_min="1">
+                <param name="profile_text_color" type="xsd:string" style="query" authdefault="#profile_text_color"
+                       default="333333"/>
+                <param name="profile_sidebar_border_color" type="xsd:string" style="query"
+                       authdefault="#profile_sidebar_border_color" default="C0DEED"/>
+                <param name="profile_sidebar_fill_color" type="xsd:string" style="query"
+                       authdefault="#profile_sidebar_fill_color" default="DDEEF6"/>
+                <param name="profile_link_color" type="xsd:string" style="query" authdefault="#profile_link_color"
+                       default="0084B4"/>
+                <param name="profile_background_color" type="xsd:string" style="query"
+                       authdefault="#profile_background_color" default="C0DEED"/>
+            </choice>
+            <method name="POST" id="accountupdate_profile_colors">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/update_profile_colors"/>
+                <example url="/update_profile_colors.{format}"/>
+                <!-- can the params move into the url? &-->
+                <notes>Sets one or more hex values that control the color scheme of the authenticating user's profile
+                    page on twitter.com.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/update_profile_image.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="image" required="true" type="xsd:string" style="header" default=""/>
+            <!-- IMPORTANT, NEED TO BE ABLE TO CHOOSE A FILE! or maybe even supply a url, though that could be confusing. &-->
+            <method name="POST" id="accountupdate_profile_image">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/update_profile_image"/>
+                <example url="/account/update_profile_image.{format}"/>
+                <notes>Updates the authenticating user's profile image. Note that this method expects raw multipart
+                    data, not a URL to an image. Must be a valid GIF, JPG, or PNG image of less than 700 kilobytes in
+                    size. Images with width larger than 500 pixels will be scaled down.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/update_profile_background_image.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="tile" required="false" type="xsd:string" style="query" default="false"/>
+            <param name="image" required="true" type="xsd:string" style="header"/>
+            <!-- IMPORTANT, NEED TO BE ABLE TO CHOOSE A FILE! or maybe even supply a url, though that could be confusing. &-->
+            <method name="POST" id="accountupdate_profile_background_image">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/update_profile_background_image"/>
+                <example url="/account/update_profile_background_image.{format}?tile={tile}"/>
+                <notes>Updates the authenticating user's profile background image. Note that this method expects raw
+                    multipart data, not a URL to an image. Must be a valid GIF, JPG, or PNG image of less than 800
+                    kilobytes in size. Images with width larger than 2048 pixels will be forceably scaled down.
+                </notes>
+            </method>
+        </resource>
+        <resource path="account/update_profile.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="4">
+                <param name="url" required="false" type="xsd:string" style="query" authdefault="#url"
+                       default="http://apigee.com"/>
+                <param name="description" required="false" type="xsd:string" style="query" authdefault="#description"
+                       default="Free API analytics and protection for API providers and consumers."/>
+                <param name="name" required="false" type="xsd:string" style="query" authdefault="#name"
+                       default="Apigee"/>
+                <param name="location" required="false" type="xsd:string" style="query" authdefault="#location"
+                       default="San Francisco, CA"/>
+            </choice>
+            <method name="POST" id="accountupdate_profile">
+                <tags>
+                    <tag primary="true">Account</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/account/update_profile"/>
+                <example
+                        url="/account/update_profile.{format}?name={name}&amp;url={url}&amp;location={location}&amp;description={description}"/>
+                <notes>Sets values that users are able to set under the "Account" tab of their settings page. Only the
+                    parameters specified will be updated.
+                </notes>
+            </method>
+        </resource>
+        <resource path="favorites.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+                <option value="rss" mediaType="application/rss+xml"/>
+                <option value="atom" mediaType="application/atom+xml"/>
+            </param>
+            <param name="id" required="false" type="xsd:string" style="query" authdefault="#screen_name"
+                   default="apigee"/>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <method name="GET" id="favorites">
+                <tags>
+                    <tag primary="true">Favorite</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/favorites"/>
+                <example url="/favorites/{id}.{format}"/>
+                <notes>Returns the 20 most recent favorite statuses for the authenticating user or user specified by the
+                    ID parameter in the requested format.
+                </notes>
+            </method>
+        </resource>
+        <resource path="favorites/create/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" default="11432445742"/>
+            <method name="POST" id="favoritescreate">
+                <tags>
+                    <tag primary="true">Favorite</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/favorites/create"/>
+                <example url="/favorites/create/{id}.{format}"/>
+                <notes>Favorites the status specified in the ID parameter as the authenticating user. Returns the
+                    favorite status when successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="favorites/destroy/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#favorites[0]"
+                   default="11432445742"/>
+            <method name="DELETE" id="favoritesdestroy">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Favorite</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/favorites/destroy"/>
+                <example url="/favorites/destroy/{id}.{format}"/>
+                <notes>Un-favorites the status specified in the ID parameter as the authenticating user. Returns the
+                    un-favorited status in the requested format when successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="notifications/follow/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="user_id" required="false" type="xsd:string" style="query" default="10330576396"/>
+                <param name="screen_name" required="false" type="xsd:string" style="query" default="apigee"/>
+            </choice>
+            <method name="POST" id="notificationsfollow">
+                <tags>
+                    <tag primary="true">Notification</tag>
+                    <tag>Follow</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/notifications/follow"/>
+                <example url="/notification/follow/{id}.{format}"/>
+                <notes>Enables device notifications for updates from the specified user. Returns the specified user when
+                    successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="notifications/leave/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="user_id" required="false" type="xsd:string" style="query" authdefault="#friends[0].id"
+                       default="10330576396"/>
+                <param name="screen_name" required="false" type="xsd:string" style="query"
+                       authdefault="#friends[0].screen_name" default="apigee"/>
+            </choice>
+            <method name="POST" id="notificationsleave">
+                <tags>
+                    <tag primary="true">Notification</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/notifications/leave"/>
+                <example url="/notifications/leave/{id}.{format}"/>
+                <notes>Disables notifications for updates from the specified user to the authenticating user.
+                       Returns the specified user when successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="blocks/create/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#friends[0].id" default="130521796"/>
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" required="false" type="xsd:string" style="query"
+                       authdefault="#friends[0].screen_name" default="testapigee"/>
+            </choice>
+            <method name="POST" id="blockscreate">
+                <tags>
+                    <tag primary="true">Block</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/blocks/create"/>
+                <example url="/blocks/create.{format}?screen_name={screen_name}"/>
+                <notes>Blocks the user specified in the ID parameter as the authenticating user. Destroys a friendship
+                    to the blocked user if it exists. Returns the blocked user in the requested format when successful.
+                    You can find out more about blocking in the<a
+                            href="http://help.twitter.com/forums/10711/entries/15355">Twitter Support Knowledge Base</a>
+                    .
+                </notes>
+            </method>
+        </resource>
+        <resource path="blocks/destroy/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#friends[0].id" default="130521796"/>
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" required="false" type="xsd:string" style="query"
+                       authdefault="#friends[0].screen_name" default="testapigee"/>
+            </choice>
+            <method name="DELETE" id="blocksdestroy">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Block</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/blocks/destroy"/>
+                <example url="/blocks/destroy.{format}?screen_name={screen_name}"/>
+                <notes>Un-blocks the user specified in the ID parameter for the authenticating user. Returns the
+                    un-blocked user in the requested format when successful.
+                </notes>
+            </method>
+        </resource>
+        <resource path="blocks/exists/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#friends[0].id" default="130521796"/>
+                <!-- superfluous			<param name="id" required="false" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" required="false" type="xsd:string" style="query"
+                       authdefault="#friends[0].screen_name" default="testapigee"/>
+            </choice>
+            <method name="GET" id="blocksexists">
+                <tags>
+                    <tag primary="true">Block</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/blocks/exists"/>
+                <example url="/blocks/exists.{format}?screen_name={screen_name}"/>
+                <notes>Returns if the authenticating user is blocking a target user. Will return the blocked user's
+                    object if a block exists, and error with a HTTP 404 response code otherwise.
+                </notes>
+            </method>
+        </resource>
+        <resource path="blocks/blocking.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="page" required="false" type="xsd:string" style="query" default="2"/>
+            <method name="GET" id="blocksblocking">
+                <tags>
+                    <tag primary="true">Block</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/blocks/blocking"/>
+                <example url="/blocks/blocking.{format}"/>
+                <notes>Returns an array of user objects that the authenticating user is blocking.</notes>
+            </method>
+        </resource>
+        <resource path="blocks/blocking/ids.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="blocksblockingids">
+                <tags>
+                    <tag primary="true">Block</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/blocks/blocking/ids"/>
+                <example url="/blocks/blocking/ids.{format}"/>
+                <notes>Returns an array of numeric user ids the authenticating user is blocking.</notes>
+            </method>
+        </resource>
+        <resource path="report_spam.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice required="true" count_max="1">
+                <param name="user_id" type="xsd:string" style="query" authdefault="#followers[0].id"
+                       default="82228249"/>
+                <!-- superfluous			<param name="id" type="xsd:string" style="query" authdefault="" default=""/> &-->
+                <param name="screen_name" type="xsd:string" style="query" authdefault="#followers[0].screen_name"
+                       default="examplespammer"/>
+            </choice>
+            <method name="POST" id="report_spam">
+                <tags>
+                    <tag primary="true">Spam Reporting</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/report_spam"/>
+                <example url="/report_spam.{format}?screen_name={screen_name}"/>
+                <notes>The user specified in the id is blocked by the authenticated user and reported as a spammer.
+                </notes>
+            </method>
+        </resource>
+        <resource path="saved_searches.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="saved_searches">
+                <tags>
+                    <tag primary="true">Saved Search</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/saved_searches"/>
+                <example url="/saved_searches.{format}"/>
+                <notes>Returns the authenticated user's saved search queries.</notes>
+            </method>
+        </resource>
+        <resource path="saved_searches/show/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#saved_searches[0].id"
+                   default="313006"/>
+            <method name="GET" id="saved_searchesshow">
+                <tags>
+                    <tag primary="true">Saved Search</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/get/saved_searches/show"/>
+                <example url="/saved_searches/show/{id}.{format}"/>
+                <notes>Retrieve the data for a saved search owned by the authenticating user specified by the given id.
+                </notes>
+            </method>
+        </resource>
+        <resource path="saved_searches/create.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="query" required="true" type="xsd:string" style="query" default="from:apigee OR from:sonoa"/>
+            <method name="POST" id="saved_searchescreate">
+                <tags>
+                    <tag primary="true">Saved Search</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/saved_searches/create"/>
+                <example url="/saved_searches/create.{format}?query={query}"/>
+                <notes>Creates a saved search for the authenticated user.</notes>
+            </method>
+        </resource>
+        <resource path="saved_searches/destroy/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="#saved_searches[0].id"
+                   default="12345"/>
+            <method name="DELETE" id="saved_searchesdestroy">
+                <!-- also takes POST &-->
+                <tags>
+                    <tag primary="true">Saved Search</tag>
+                </tags>
+                <authentication required="true"/>
+                <docs url="http://dev.twitter.com/doc/post/saved_searches/destroy"/>
+                <example url="/saved_searches/destroy/{id}.{format}"/>
+                <notes>Destroys a saved search for the authenticated user. The search specified by id must be owned by
+                    the authenticating user.
+                </notes>
+            </method>
+        </resource>
+        <resource path="trends/available.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <choice count_max="2" count_min="2">
+                <param name="lat" required="false" type="xsd:string" style="query" default="37.78215"/>
+                <param name="long" required="false" type="xsd:string" style="query" default="-122.40060"/>
+                <!-- at some point we should look up the lat/lon of the authenticated user &-->
+            </choice>
+            <method name="GET" id="trendsavailable">
+                <tags>
+                    <tag primary="true">Local Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends/available"/>
+                <example url="/trends/available.{format}"/>
+                <notes>
+                    <p>Returns the locations that Twitter has trending topic information for. The response is an array
+                        of "locations" that encode the location's WOEID (a<a
+                                href="http://developer.yahoo.com/geo/geoplanet/">Yahoo Where On Earth ID</a>) and some
+                        other human-readable information such as a canonical name and country the location belongs in.
+                    </p>
+                    <p>The WOEID that is returned in the location object is to be used when querying for a specific
+                        trend.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="trends/{woeid}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="woeid" required="true" type="xsd:string" style="query" default="2487956"/>
+            <!-- add contextual lookup at some point &-->
+            <method name="GET" id="trendswoeid">
+                <tags>
+                    <tag primary="true">Local Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends/location"/>
+                <example url="/trends/{woeid}.{format}"/>
+                <notes>Returns the top 10 trending topics for a specific location Twitter has trending topic information
+                    for. The response is an array of "trend" objects that encode the name of the trending topic, the
+                    query parameter that can be used to search for the topic on Search, and the direct URL that can be
+                    issued against Search. This information is cached for five minutes, and therefore users are
+                    discouraged from querying these endpoints faster than once every five minutes. Global trends
+                    information is also available from this API by using a WOEID of 1.
+                </notes>
+            </method>
+        </resource>
+        <resource path="geo/search.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="ip" required="false" type="xsd:string" style="query" authdefault="" default=""/>
+            <param name="long" required="false" type="xsd:string" style="query" authdefault="" default=""/>
+            <param name="max_results" required="false" type="xsd:string" style="query" authdefault="" default=""/>
+            <param name="granularity" required="false" type="xsd:string" style="query" authdefault="" default=""/>
+            <param name="lat" required="false" type="xsd:string" style="query" authdefault="" default=""/>
+            <param name="accuracy" required="false" type="xsd:string" style="query" authdefault="" default="city"/>
+            <method name="GET" id="geonearby_places">
+                <tags>
+                    <tag primary="true">Geo</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-GET-geo-nearby_places"/>
+                <!-- not yet on new wiki! -->
+                <example url="/geo/search.{format}?lat={lat}&amp;long={long}&amp;query={query}"/>
+                <notes>
+                    <p>Search for places (cities and neighborhoods) that can be attached to a statuses/update. Given a
+                        latitude and a longitude pair, or an IP address, return a list of all the valid cities and
+                        neighborhoods that can be used as a place_id when updating a status. Conceptually, a query can
+                        be made from the user's location, retrieve a list of places, have the user validate the location
+                        he or she is at, and then send the ID of this location up with a call to statuses/update.
+                    </p>
+                    <p>There are multiple granularities of places that can be returned -- "neighborhoods", "cities",
+                        etc. At this time, only United States data is available through this method.
+                    </p>
+                    <p>This is the recommended method to use find places that can be attached to statuses/update. Unlike
+                        geo/reverse_geocode which provides raw data access, this endpoint can potentially re-order
+                        places with regards to the user who is authenticated.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="geo/reverse_geocode.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="lat" required="true" type="xsd:string" style="query" default="37.78215"/>
+            <param name="max_results" required="false" type="xsd:string" style="query" default="20"/>
+            <param name="granularity" required="false" type="xsd:string" style="query" default="city"/>
+            <param name="long" required="true" type="xsd:string" style="query" default="-122.40060"/>
+            <!-- at some point make this contextual to the user &-->
+            <param name="accuracy" required="false" type="xsd:string" style="query" default="500"/>
+            <method name="GET" id="georeverse_geocode">
+                <tags>
+                    <tag primary="true">Geo</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/geo/reverse_geocode"/>
+                <example url="/geo/reverse_geocode.{format}?lat={lat}&amp;long={long}"/>
+                <notes>
+                    <p>Search for places (cities and neighborhoods) that can be attached to a statuses/update. Given a
+                        latitude and a longitude, return a list of all the valid places that can be used as a place_id
+                        when updating a status. Conceptually, a query can be made from the user's location, retrieve a
+                        list of places, have the user validate the location he or she is at, and then send the ID of
+                        this location up with a call to statuses/update.
+                    </p>
+                    <p>There are multiple granularities of places that can be returned -- "neighborhoods", "cities",
+                        etc. At this time, only United States data is available through this method.
+                    </p>
+                    <p>This API call is meant to be an informative call and will deliver generalized results about
+                        geography. It is recommended that clients use the geo/nearby_places call.
+                    </p>
+                </notes>
+            </method>
+        </resource>
+        <resource path="geo/id/{id}.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="id" required="true" type="xsd:string" style="query" authdefault="" default="7695dd2ec2f86f2b"/>
+            <!-- at some point make this contextual to the user &-->
+            <method name="GET" id="geoid">
+                <tags>
+                    <tag primary="true">Geo</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/geo/id"/>
+                <example url="/geo/id/{id}.{format}"/>
+                <notes>Find out more details of a place that was returned from the geo/reverse_geocode method.</notes>
+            </method>
+        </resource>
+        <resource path="help/test.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="xml" mediaType="application/xml"/>
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="helptest">
+                <tags>
+                    <tag primary="true">Help</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/help/test"/>
+                <example url="/help/test.{format}"/>
+                <notes>Returns the string "ok" in the requested format with a 200 OK HTTP status code.</notes>
+            </method>
+        </resource>
+        <resource path="trends.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <method name="GET" id="trends">
+                <tags>
+                    <tag primary="true">Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends"/>
+                <example url="/trends.{format}"/>
+                <notes>Returns the top ten topics that are currently trending on Twitter. The response includes the time
+                    of the request, the name of each trend, and the url to the Twitter Search results page for that
+                    topic.
+                </notes>
+            </method>
+        </resource>
+        <resource path="trends/current.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="exclude" required="false" type="xsd:string" style="query" default="hashtags"/>
+            <method name="GET" id="trendscurrent">
+                <tags>
+                    <tag primary="true">Trends</tag>
+                    <tag>Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends/current"/>
+                <example url="/trends/current.{format}"/>
+                <notes>Returns the current top 10 trending topics on Twitter. The response includes the time of the
+                    request, the name of each trending topic, and query used on Twitter Search results page for that
+                    topic.
+                </notes>
+            </method>
+        </resource>
+        <resource path="trends/daily.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="exclude" required="false" type="xsd:string" style="query" default="hashtags"/>
+            <param name="date" required="false" type="xsd:string" style="query" default="2009-03-19"/>
+            <method name="GET" id="trendscurrent">
+                <tags>
+                    <tag primary="true">Trends</tag>
+                    <tag>Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends/daily"/>
+                <example url="/trends/daily.{format}"/>
+                <notes>Returns the top 20 trending topics for each hour in a given day.</notes>
+            </method>
+        </resource>
+        <resource path="trends/weekly.{format}">
+            <param name="format" type="xsd:string" style="template" required="true" default="json">
+                <option value="json" mediaType="application/json"/>
+            </param>
+            <param name="exclude" required="false" type="xsd:string" style="query" default="hashtags"/>
+            <param name="date" required="false" type="xsd:string" style="query" default="2009-03-19"/>
+            <method name="GET" id="trendsweekly">
+                <tags>
+                    <tag primary="true">Trends</tag>
+                    <tag>Trends</tag>
+                </tags>
+                <authentication required="false"/>
+                <docs url="http://dev.twitter.com/doc/get/trends/weekly"/>
+                <example url="/trends/weekly.{format}"/>
+                <notes>Returns the top 30 trending topics for each day in a given week.</notes>
+            </method>
+        </resource>
+    </resources>
+</application>
+        <!-- check authdefaults
+revisit what POST examples include (like params="param1, param2")
+Other tags: GET/POST/PUT/DELETE auth/noauth
+need pretty names for params, and descriptions
+ALSO NEEDS: parameter notes. Response descriptions. And Version added to the template for the base resources. -->

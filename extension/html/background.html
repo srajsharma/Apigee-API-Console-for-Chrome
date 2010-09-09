@@ -1,5 +1,6 @@
 <script type="text/javascript">
     var ApigeeConsole = new ApigeeConsoleUtils;
+    ApigeeConsole.init();
     function ApigeeConsoleUtils() {
 
         this.pagesOfInterest = ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'];
@@ -8,6 +9,24 @@
         this.endpointmap["api.twitter.com"] = "twitter";
         this.endpointmap["graph.facebook.com"] = "facebook";
 
+        this.urls = [];
+        this.init = function() {
+            this.loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
+            this.loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
+            this.loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
+            this.loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
+        };
+
+        this.loadWADL = function(wadl, api) {
+            var xhttp=new XMLHttpRequest();
+            xhttp.open("GET",chrome.extension.getURL("wadl/" + wadl),false);
+            xhttp.send();
+            var exampleNodes = xhttp.responseXML.getElementsByTagName('example');
+            for (var count=0; count < exampleNodes.length; count++) {
+                this.urls.push(api + exampleNodes[count].attributes["url"].nodeValue);
+            }
+        }
+        
         // Function to fix the url, as of now it adds the default protocol ('http')
         // if the url doesn't have a protocol associated
         this.fixUrl = function(url) {
@@ -59,58 +78,16 @@
                     return;
                 }
 
-                /*if (currentRequest != null) {
-                    currentRequest.onreadystatechange = null;
-                    currentRequest.abort();
-                    currentRequest = null;
-                }*/
-
-                /*currentRequest = search(text, function(xml) {
-                    var results = [];
-                    var entries = xml.getElementsByTagName("entry");
-
-                    for (var i = 0, entry; i < 5 && (entry = entries[i]); i++) {
-                        var path = entry.getElementsByTagName("file")[0].getAttribute("name");
-                        var line =
-                                entry.getElementsByTagName("match")[0].getAttribute("lineNumber");
-                        var file = path.split("/").pop();
-
-                        // Remove HTML tags from description since omnibox cannot display them.
-                        var description = entry.getElementsByTagName("content")[0].textContent;
-                        description = description.replace(/<\/?.+?>/g, '');
-                        description = file + ': ' + description;
-                        descriptionStyles = [
-                            chrome.experimental.omnibox.styleUrl(0),
-                            chrome.experimental.omnibox.styleNone(file.length),
-                        ]
-
-                        // Highlight all occurrences of the match text.
-                        var index = -1;
-                        for (; ;) {
-                            var index = description.indexOf(text, index + 1);
-                            if (index < 0) break;
-                            if (index > file.length) {
-                                descriptionStyles.push(
-                                        chrome.experimental.omnibox.styleMatch(index),
-                                        chrome.experimental.omnibox.styleNone(index + text.length)
-                                        );
-                            }
-                        }
-
-                        results.push({
-                            content: path + '@' + line,
-                            description: description,
-                            descriptionStyles: descriptionStyles,
-                        });
+                var res = [];
+                for (var i=0; i < ApigeeConsole.urls.length; i++) {
+                    if (ApigeeConsole.urls[i].search(text) > 0) {
+                        res.push({
+                                content: ApigeeConsole.urls[i],
+                                description: ApigeeConsole.urls[i],
+                                descriptionStyles: [chrome.experimental.omnibox.styleNone(1)]
+                            });
                     }
-
-                    suggest(results);
-                });*/
-                var res = [{
-                            content: "test content",
-                            description: "test description",
-                            descriptionStyles: [chrome.experimental.omnibox.styleNone(1)]
-                        }];
+                }
                 suggest(res);
             }
             );
