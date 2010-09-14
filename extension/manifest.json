@@ -2,7 +2,7 @@
   "name": "Apigee's API Test Console",
   "version": "1.0",
   "permissions": ["tabs","experimental","contextMenus"],
-  "omnibox_keyword": "apigee",
+  "omnibox_keyword": "test",
   "icons": {
     "16": "images/apigee_16.png",
     "48": "images/apigee_70.png",

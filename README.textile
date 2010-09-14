@@ -4,7 +4,7 @@ apigee provides a great tool to explore apis, this is a small extension to use i
 
 Usage
 --------
-Just type apigee + tab in the omnibar
+Just type test + tab in the omnibar
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/step1.jpg!
 
 
@@ -17,6 +17,8 @@ Press enter to see apigee console with the api url
 
 This extension adds a context menu for all the urls and text selection
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/apigee-context-menu.jpg!
+
+This extension suggests api urls for twitter, facebook apis as of now
 
 Installation
 ------------
