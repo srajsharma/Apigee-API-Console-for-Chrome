@@ -35,23 +35,16 @@ parseUri.options = {
     }
 };
 
-function ApigeeConsoleUtils() {
+var ApigeeConsole = {
 
-    this.pagesOfInterest = ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'];
+    pagesOfInterest: ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'],
 
-    this.endpointmap = {};
-    this.endpointmap["api.twitter.com"] = "twitter";
-    this.endpointmap["graph.facebook.com"] = "facebook";
+    endpointmap: {"api.twitter.com":"twitter", "twitter.com":"twitter", "dev.twitter.com":"twitter",
+                  "graph.facebook.com":"facebook", "facebook.com":"facebook"},
 
-    this.urls = [];
-    this.init = function () {
-        this.loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
-        this.loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
-        this.loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
-        this.loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
-    };
+    urls:[],
 
-    this.loadWADL = function (wadl, api) {
+    loadWADL: function (wadl, api) {
         var xhttp = new XMLHttpRequest(), exampleNodes;
         xhttp.open("GET", chrome.extension.getURL("wadl/" + wadl), false);
         xhttp.send();
@@ -59,42 +52,47 @@ function ApigeeConsoleUtils() {
         for (var count = 0; count < exampleNodes.length; count++) {
             this.urls.push(api + exampleNodes[count].attributes.url.nodeValue);
         }
-    };
+    },
 
     // Function to fix the url, as of now it adds the default protocol ('http')
     // if the url doesn't have a protocol associated
-    this.fixUrl = function (url) {
+    fixUrl: function (url) {
         if (url.indexOf('http') !== 0) {
             url = 'http://' + url;
         }
         return url;
-    };
+    },
 
     // Returns the apigee console provider for the given url
     // twitter/facebook/others
-    this.getApigeeConsoleEndpoint = function (url) {
-        return this.endpointmap[url.host] !== null ? this.endpointmap[url.host] : 'others';
-    };
+    getApigeeConsoleEndpoint: function (url) {
+        return this.endpointmap[url.host] !== undefined ? this.endpointmap[url.host] : 'others';
+    },
 
-    this.consoleLinkPrefix = "https://app.apigee.com/console/#apimet=";
-    this.consoleLinkSuffix = encodeURIComponent("__apiidx__=null__apisecure__=true__apiprovider__=others");
+    consoleLinkPrefix: "https://app.apigee.com/console/#apimet=",
+    consoleLinkSuffix: encodeURIComponent("__apiidx__=null__apisecure__=true__apiprovider__=others"),
     // Returns the apigee console url with all the parameters set
-    this.buildApigeeConsoleUrl = function (url) {
+    buildApigeeConsoleUrl: function (url) {
         url = parseUri(this.fixUrl(url));
         var consoleUrl = this.consoleLinkPrefix.replace('console/', 'console/' + this.getApigeeConsoleEndpoint(url)) +
                 encodeURIComponent(url.source) +
                 this.consoleLinkSuffix.replace('others', this.getApigeeConsoleEndpoint(url));
         return consoleUrl;
-    };
+    },
 
-    this.navigate = function (url) {
+    navigate: function (url) {
         chrome.tabs.getSelected(null, function (tab) {
             chrome.tabs.update(tab.id, {url: url});
         });
-    };
-}
+    },
 
-var ApigeeConsole = new ApigeeConsoleUtils();
+    init: function () {
+        this.loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
+        this.loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
+        this.loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
+        this.loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
+    }
+};
 ApigeeConsole.init();
 
 // This event is fired with the user accepts the input in the omnibox.
@@ -128,7 +126,7 @@ chrome.experimental.omnibox.onInputChanged.addListener(
         );
 
 // Listen for any changes to the URL of any tab.
-chrome.contextMenus.create({"title": "Test with apigee", "contexts":["link","selection"],
+chrome.contextMenus.create({"title": "Test with apigee", "contexts":["link", "selection"],
     "onclick": function (info, tab) {
         try {
             ApigeeConsole.navigate(ApigeeConsole.buildApigeeConsoleUrl(info.linkUrl));

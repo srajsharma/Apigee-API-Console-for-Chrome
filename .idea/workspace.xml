@@ -18,8 +18,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extension/html/background.html" afterPath="$PROJECT_DIR$/extension/html/background.html" />
     </list>
-    <ignored path="$USER_HOME_GRIFFON$/" />
     <ignored path="$USER_HOME_GRAILS$/" />
+    <ignored path="$USER_HOME_GRIFFON$/" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +79,7 @@
       <file leaf-file-name="background.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/extension/html/background.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="42" selection-start="1884" selection-end="1884" vertical-scroll-proportion="1.2445582">
+            <state line="128" column="77" selection-start="4699" selection-end="4699" vertical-scroll-proportion="2.8186529">
               <folding />
             </state>
           </provider>
@@ -365,7 +365,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1243" height="998" extended-state="6" />
+    <frame x="1" y="1" width="1233" height="988" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
@@ -406,7 +406,7 @@
     <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
     <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the keyword to 'test' instead of apigee" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made changes suggested by JSLint" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -424,6 +424,7 @@
     <MESSAGE value="Added context menu changes, refactored some js code" />
     <MESSAGE value="Suggestions is the new feature now :)" />
     <MESSAGE value="Updated the keyword to 'test' instead of apigee" />
+    <MESSAGE value="Made changes suggested by JSLint" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -467,11 +468,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="40" selection-start="6787" selection-end="6787" vertical-scroll-proportion="1.6141827" />
-      </provider>
-    </entry>
     <entry file="file://C:/Documents and Settings/Administrator/Desktop/anywhere.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="94" column="90" selection-start="3765" selection-end="3765" vertical-scroll-proportion="1.9801735" />
@@ -504,14 +500,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.textile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="69" selection-start="755" selection-end="755" vertical-scroll-proportion="0.0">
+        <state line="20" column="69" selection-start="755" selection-end="755" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="18" selection-start="660" selection-end="660" vertical-scroll-proportion="0.25123152">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/extension/html/background.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="42" selection-start="1884" selection-end="1884" vertical-scroll-proportion="1.2445582">
+        <state line="128" column="77" selection-start="4699" selection-end="4699" vertical-scroll-proportion="2.8186529">
           <folding />
         </state>
       </provider>
