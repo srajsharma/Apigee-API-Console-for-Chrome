@@ -14,14 +14,9 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="e919845b-c212-40c4-b78e-cbd78a3431c4" name="Default" comment="Suggestions is the new feature now :)">
+    <list default="true" readonly="true" id="e919845b-c212-40c4-b78e-cbd78a3431c4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc-images/omnibar-image.jpg" afterPath="$PROJECT_DIR$/doc-images/omnibar-image.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.textile" afterPath="$PROJECT_DIR$/README.textile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc-images/step3.jpg" afterPath="$PROJECT_DIR$/doc-images/step3.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc-images/step1.jpg" afterPath="$PROJECT_DIR$/doc-images/step1.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc-images/step2.jpg" afterPath="$PROJECT_DIR$/doc-images/step2.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extension/manifest.json" afterPath="$PROJECT_DIR$/extension/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extension/html/background.html" afterPath="$PROJECT_DIR$/extension/html/background.html" />
     </list>
     <ignored path="$USER_HOME_GRIFFON$/" />
     <ignored path="$USER_HOME_GRAILS$/" />
@@ -81,64 +76,10 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="background.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="background.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/extension/html/background.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="54" selection-start="3471" selection-end="3471" vertical-scroll-proportion="-0.68">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manifest.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extension/manifest.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="26" selection-start="144" selection-end="144" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.textile" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.textile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="69" selection-start="755" selection-end="755" vertical-scroll-proportion="0.40816328">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="simplegeo-wadl.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extension/wadl/simplegeo-wadl.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="41" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="facebook-wadl.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extension/wadl/facebook-wadl.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="47" selection-start="449" selection-end="475" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="twitter-wadl.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extension/wadl/twitter-wadl.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="113" selection-start="111" selection-end="111" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="truveo-wadl.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extension/wadl/truveo-wadl.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="42" selection-start="300" selection-end="321" vertical-scroll-proportion="0.0">
+            <state line="54" column="42" selection-start="1884" selection-end="1884" vertical-scroll-proportion="1.2445582">
               <folding />
             </state>
           </provider>
@@ -166,9 +107,9 @@
         <option value="$PROJECT_DIR$/extension/js/console.js" />
         <option value="$PROJECT_DIR$/extension/html/popup.html" />
         <option value="$PROJECT_DIR$/extension/wadl/twitter-wadl.xml" />
-        <option value="$PROJECT_DIR$/extension/html/background.html" />
         <option value="$PROJECT_DIR$/extension/manifest.json" />
         <option value="$PROJECT_DIR$/README.textile" />
+        <option value="$PROJECT_DIR$/extension/html/background.html" />
       </list>
     </option>
   </component>
@@ -209,8 +150,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,81 +178,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="extension" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="extension" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wadl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="extension" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="extension" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="html" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API-Test-Console" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="doc-images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -492,10 +365,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1643" height="1024" extended-state="6" />
+    <frame x="-4" y="-4" width="1243" height="998" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.09714286" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -509,7 +382,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23047858" sideWeight="0.89485717" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21212122" sideWeight="0.66195524" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Graphical Navigator" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -533,7 +406,7 @@
     <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
     <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Suggestions is the new feature now :)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the keyword to 'test' instead of apigee" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -550,6 +423,7 @@
     <MESSAGE value="Added apigee test context menu item for links" />
     <MESSAGE value="Added context menu changes, refactored some js code" />
     <MESSAGE value="Suggestions is the new feature now :)" />
+    <MESSAGE value="Updated the keyword to 'test' instead of apigee" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -603,6 +477,11 @@
         <state line="94" column="90" selection-start="3765" selection-end="3765" vertical-scroll-proportion="1.9801735" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/extension/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="26" selection-start="144" selection-end="144" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/extension/wadl/simplegeo-wadl.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="41" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.0" />
@@ -623,23 +502,16 @@
         <state line="3" column="42" selection-start="300" selection-end="321" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extension/html/background.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="54" selection-start="3471" selection-end="3471" vertical-scroll-proportion="-0.68">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extension/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="26" selection-start="144" selection-end="144" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.textile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="69" selection-start="755" selection-end="755" vertical-scroll-proportion="0.40816328">
+        <state line="20" column="69" selection-start="755" selection-end="755" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extension/html/background.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="42" selection-start="1884" selection-end="1884" vertical-scroll-proportion="1.2445582">
           <folding />
         </state>
       </provider>
