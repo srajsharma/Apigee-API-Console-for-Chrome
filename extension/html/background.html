@@ -35,71 +35,91 @@ parseUri.options = {
     }
 };
 
-var ApigeeConsole = {
+var APIGEE_CONSOLE = function () {
+    var pagesOfInterest = ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'],
+    endpointMap = {"api.twitter.com" : "twitter", "twitter.com" : "twitter", "dev.twitter.com" : "twitter",
+                       "graph.facebook.com" : "facebook", "facebook.com" : "facebook"},
+    consoleLinkPrefix = "https://app.apigee.com/console/#apimet=",
+    consoleLinkSuffix = encodeURIComponent("__apiidx__=null__apisecure__=true__apiprovider__=others"),
+    urls = [],
 
-    pagesOfInterest: ['dev.twitter.com', 'developers.facebook.com', 'help.simplegeo.com'],
-
-    endpointmap: {"api.twitter.com":"twitter", "twitter.com":"twitter", "dev.twitter.com":"twitter",
-                  "graph.facebook.com":"facebook", "facebook.com":"facebook"},
-
-    urls:[],
-
-    loadWADL: function (wadl, api) {
+    loadWADL = function (wadl, api) {
         var xhttp = new XMLHttpRequest(), exampleNodes;
         xhttp.open("GET", chrome.extension.getURL("wadl/" + wadl), false);
         xhttp.send();
         exampleNodes = xhttp.responseXML.getElementsByTagName('example');
         for (var count = 0; count < exampleNodes.length; count++) {
-            this.urls.push(api + exampleNodes[count].attributes.url.nodeValue);
+            urls.push(api + exampleNodes[count].attributes.url.nodeValue);
         }
     },
 
-    // Function to fix the url, as of now it adds the default protocol ('http')
-    // if the url doesn't have a protocol associated
-    fixUrl: function (url) {
+    fixUrl = function (url) {
         if (url.indexOf('http') !== 0) {
             url = 'http://' + url;
         }
         return url;
     },
 
-    // Returns the apigee console provider for the given url
-    // twitter/facebook/others
-    getApigeeConsoleEndpoint: function (url) {
-        return this.endpointmap[url.host] !== undefined ? this.endpointmap[url.host] : 'others';
+    getApigeeConsoleEndpoint = function (url) {
+        return endpointMap[url.host] !== undefined ? endpointMap[url.host] : 'others';
     },
 
-    consoleLinkPrefix: "https://app.apigee.com/console/#apimet=",
-    consoleLinkSuffix: encodeURIComponent("__apiidx__=null__apisecure__=true__apiprovider__=others"),
-    // Returns the apigee console url with all the parameters set
-    buildApigeeConsoleUrl: function (url) {
-        url = parseUri(this.fixUrl(url));
-        var consoleUrl = this.consoleLinkPrefix.replace('console/', 'console/' + this.getApigeeConsoleEndpoint(url)) +
+    buildApigeeConsoleUrl = function (url) {
+        url = parseUri(fixUrl(url));
+        var consoleUrl = consoleLinkPrefix.replace('console/', 'console/' + getApigeeConsoleEndpoint(url)) +
                 encodeURIComponent(url.source) +
-                this.consoleLinkSuffix.replace('others', this.getApigeeConsoleEndpoint(url));
+                consoleLinkSuffix.replace('others', getApigeeConsoleEndpoint(url));
         return consoleUrl;
     },
 
-    navigate: function (url) {
+    navigate = function (url) {
         chrome.tabs.getSelected(null, function (tab) {
             chrome.tabs.update(tab.id, {url: url});
         });
-    },
-
-    init: function () {
-        this.loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
-        this.loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
-        this.loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
-        this.loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
     }
-};
-ApigeeConsole.init();
+
+    return {
+        init : function () {
+            loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
+            loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
+            loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
+            loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
+        },
+
+        navigate : function (url) {
+            url = buildApigeeConsoleUrl(url);
+            chrome.tabs.getSelected(null, function (tab) {
+                chrome.tabs.update(tab.id, {url: url});
+            });
+        },
+
+        isPageOfInterest : function(url) {
+            for (var page in pagesOfInterest) {
+                if (url.indexOf(pagesOfInterest[page]) > 0) {
+                    return true;
+                }
+            }
+            return false;
+        },
+
+        suggestUrls : function(text) {
+            var result = [];
+            for (var i in urls) {
+                if (urls[i].search(text) > 0) {
+                    result.push(urls[i]);
+                }
+            }
+            return result;
+        }
+    }
+}();
+APIGEE_CONSOLE.init();
 
 // This event is fired with the user accepts the input in the omnibox.
 chrome.experimental.omnibox.onInputEntered.addListener(
         function (text) {
             try {
-                ApigeeConsole.navigate(ApigeeConsole.buildApigeeConsoleUrl(text));
+                APIGEE_CONSOLE.navigate(text);
             } catch (err) {
                 alert('Please enter a valid url');
             }
@@ -112,14 +132,13 @@ chrome.experimental.omnibox.onInputChanged.addListener(
             }
 
             var res = [];
-            for (var i in ApigeeConsole.urls) {
-                if (ApigeeConsole.urls[i].search(text) > 0) {
-                    res.push({
-                            content: ApigeeConsole.urls[i],
-                            description: ApigeeConsole.urls[i],
-                            descriptionStyles: [chrome.experimental.omnibox.styleNone(1)]
-                        });
-                }
+            var suggestedUrls = APIGEE_CONSOLE.suggestUrls(text);
+            for (var i in suggestedUrls) {
+                res.push({
+                        content: suggestedUrls[i],
+                        description: suggestedUrls[i],
+                        descriptionStyles: [chrome.experimental.omnibox.styleNone(1)]
+                    });
             }
             suggest(res);
         }
@@ -129,19 +148,16 @@ chrome.experimental.omnibox.onInputChanged.addListener(
 chrome.contextMenus.create({"title": "Test with apigee", "contexts":["link", "selection"],
     "onclick": function (info, tab) {
         try {
-            ApigeeConsole.navigate(ApigeeConsole.buildApigeeConsoleUrl(info.linkUrl));
+            APIGEE_CONSOLE.navigate(info.linkUrl);
         } catch (err) {
             alert('Please enter a valid url');
         }
     }});
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    for (var i in ApigeeConsole.pagesOfInterest) {
-        if (tab.url.indexOf(ApigeeConsole.pagesOfInterest[i]) > 0) {
-          // ... show the page action.
-          chrome.pageAction.show(tabId);
-          break;
-        }
+    if (APIGEE_CONSOLE.isPageOfInterest(tab.url)) {
+        // ... show the page action.
+        chrome.pageAction.show(tabId);
     }
 });
 </script>
