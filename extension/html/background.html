@@ -1,4 +1,17 @@
 <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18610744-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">
 // parseUri 1.2.2
 // (c) Steven Levithan <stevenlevithan.com>
 // MIT License
@@ -119,6 +132,7 @@ APIGEE_CONSOLE.init();
 chrome.experimental.omnibox.onInputEntered.addListener(
         function (text) {
             try {
+                _gaq.push(['_trackEvent', 'Omnibox', text]);
                 APIGEE_CONSOLE.navigate(text);
             } catch (err) {
                 alert('Please enter a valid url');
@@ -145,9 +159,10 @@ chrome.experimental.omnibox.onInputChanged.addListener(
         );
 
 // Listen for any changes to the URL of any tab.
-chrome.contextMenus.create({"title": "Test with apigee", "contexts":["link", "selection"],
+chrome.contextMenus.create({"title": "Test with Apigee", "contexts":["link", "selection"],
     "onclick": function (info, tab) {
         try {
+            _gaq.push(['_trackEvent', 'ContextMenu', info.linkUrl]);
             APIGEE_CONSOLE.navigate(info.linkUrl);
         } catch (err) {
             alert('Please enter a valid url');

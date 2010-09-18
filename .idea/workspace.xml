@@ -18,8 +18,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extension/html/background.html" afterPath="$PROJECT_DIR$/extension/html/background.html" />
     </list>
-    <ignored path="$USER_HOME_GRIFFON$/" />
     <ignored path="$USER_HOME_GRAILS$/" />
+    <ignored path="$USER_HOME_GRIFFON$/" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +79,7 @@
       <file leaf-file-name="background.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/extension/html/background.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="16" selection-start="3273" selection-end="3281" vertical-scroll-proportion="1.9130435">
+            <state line="164" column="65" selection-start="5697" selection-end="5697" vertical-scroll-proportion="3.3876064">
               <folding />
             </state>
           </provider>
@@ -383,10 +383,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1243" height="998" extended-state="6" />
+    <frame x="-4" y="-4" width="1643" height="1024" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297491" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -529,7 +529,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/extension/html/background.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="16" selection-start="3273" selection-end="3281" vertical-scroll-proportion="1.9130435">
+        <state line="164" column="65" selection-start="5697" selection-end="5697" vertical-scroll-proportion="3.3876064">
           <folding />
         </state>
       </provider>
