@@ -139,7 +139,7 @@ var CHROME_EXT_UTIL = function() {
                 if (APIGEE_CONSOLE.isPageOfInterest(url)) {
                     // ... show the page action.
                     chrome.pageAction.show(tabId);
-                    chrome.pageAction.setTitle({'tabId' : tabId , 'title':'Explore ' + url.host + " apis at Apigee"});
+                    chrome.pageAction.setTitle({'tabId' : tabId , 'title':'Explore ' + url.host + " APIs at Apigee"});
                 }
             });
 
@@ -182,7 +182,7 @@ var CHROME_EXT_UTIL = function() {
                 chrome.tabs.create({url: url});
             });            
         },
-        expoloreApis : function() {
+        exploreApis : function() {
             chrome.tabs.getSelected(null, function(tab) {
                 APIGEE_CONSOLE.navigate(tab.url);
             });
