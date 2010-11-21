@@ -122,6 +122,10 @@ APIGEE_CONSOLE.init();
 var CHROME_EXT_UTIL = function() {
     return {
         init : function() {
+            
+            chrome.browserAction.onClicked.addListener(function(tab) {
+                chrome.tabs.executeScript(null, {file: "js/anywhere.js"});
+            });
             // This event is fired with the user accepts the input in the omnibox.
             // Listen for any changes to the URL of any tab.
             chrome.contextMenus.create({"title": "Test with Apigee", "contexts":["link", "selection"],
