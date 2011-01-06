@@ -1,26 +1,26 @@
-apigee anywhere
+The Apigee API Console for Chrome
 -----------------
-apigee provides a great tool to explore apis, this is a small extension to use its power in the chrome omnibar context.
+The Apigee API Console is the best way to explore, test, and learn an API. This Chrome extension extends that power to the Chrome Omnibar context.
 
 Usage
 --------
-Just type test + tab in the omnibar
+Just type apigee + tab in the omnibar:
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/step1.jpg!
 
 
-Type the api url you want to test
+Start typing the API url you want to test:
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/step2.jpg!
 
 
-Press enter to see apigee console with the api url
+Press enter run the API request in the API Console:
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/step3.jpg!
 
-This extension adds a context menu for all the urls and text selection
+Additionally, you can use the context menu to launch any url or text selection in the API Console:
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/apigee-context-menu.jpg!
 
-This extension suggests api urls for twitter, facebook apis as of now
+This extension suggests API urls for Twitter, Facebook, and SimpleGeo APIs, with more coming soon!
 
-Click on the apigee icon to apigify text links in any api docs pages, observe the text links become apigee console links
+Click on the Apigee 'a' icon to make all endpoint links on a page become testable links into the Apigee API Console:
 !http://github.com/apigee/API-Test-Console/raw/master/doc-images/apigify_links.png!
 
 Installation

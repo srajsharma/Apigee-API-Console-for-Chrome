@@ -80,7 +80,6 @@ var APIGEE_CONSOLE = function () {
 
     return {
         init : function () {
-            loadWADL('truveo-wadl.xml', 'http://xml.truveo.com');
             loadWADL('facebook-wadl.xml', 'https://graph.facebook.com');
             loadWADL('simplegeo-wadl.xml', 'http://api.simplegeo.com/0.1');
             loadWADL('twitter-wadl.xml', 'http://api.twitter.com/1');
@@ -128,7 +127,7 @@ var CHROME_EXT_UTIL = function() {
             });
             // This event is fired with the user accepts the input in the omnibox.
             // Listen for any changes to the URL of any tab.
-            chrome.contextMenus.create({"title": "Test with Apigee", "contexts":["link", "selection"],
+            chrome.contextMenus.create({"title": "Explore with Apigee", "contexts":["link", "selection"],
                 "onclick": function (info, tab) {
                     try {
                         _gaq.push(['_trackEvent', 'ContextMenu', info.linkUrl]);

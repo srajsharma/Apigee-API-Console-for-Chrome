@@ -1,8 +1,8 @@
 {
-    "name": "Apigee's API Test Console",
+    "name": "Apigee API Console",
     "version": "1.0",
     "permissions": ["tabs","experimental","contextMenus","http://*/*","https://*/*"],
-    "omnibox_keyword": "test",
+    "omnibox_keyword": "Apigee",
     "icons": {
         "16": "images/apigee_16.png",
         "48": "images/apigee_70.png",
@@ -10,9 +10,9 @@
     },
     "background_page": "html/background.html",
     "browser_action": {
-        "name": "Override all the links with apigee console",
+        "name": "Override all the links with Apigee API Console",
         "icons": ["images/apigee_16.png"],
         "default_icon": "images/apigee_16.png",
-        "default_title": "Apigify links"
+        "default_title": "Make links testable"
     }
 }
